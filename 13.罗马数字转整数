@@ -1,0 +1,95 @@
+class Solution {
+public:
+    int romanToInt(string s) {
+        //string ss;
+        //ss=s[1]+s[2];
+        //cout<<ss;
+        //第一种想法
+        //首先输入为字符串 那么 必要判断字符串中每一个字符 所以就需要得到每一个字符
+        //想来想去 认为最重要 最干扰我的一点 就是小的数放在左边的情况
+        //所以找找 它有没有什么特殊的地方
+        //因为从左往右由大到小 最核心的就是 一直做加法 而左边突然多一个 需要 做减法 
+        //所以 考虑 先全部加 然后纪录 左边比右边小的那些 最后统一减 并且没有IVIV（44）的情况
+        //以下不考虑有左边的情况
+        /*
+        int num=0;
+        for(int i=0;i<s.size();i++)
+        {
+            //不可能一个一个判断 所以考虑使用switch
+            switch(s[i])
+            {
+                case'I':
+                    num+=1;
+                    break;
+                 case'V':
+                    num+=5;
+                    break;
+                case'X':
+                    num+=10;
+                    break;
+                case'L':
+                    num+=50;
+                    break;
+                case'C':
+                    num+=100; 
+                    break;   
+                case'D':
+                    num+=500;  
+                    break;  
+                case'M':
+                    num+=1000;   
+                    break;                        
+            }
+        }
+        return num;
+        */
+
+        //以下考虑有左边的情况
+        
+        int num=0;
+        int num_L=0;
+        //int num_R=0;
+        int num_out=0;//记录需要被减的数总的大小
+        for(int i=0;i<s.size();i++)
+        {
+            //不可能一个一个判断 所以考虑使用switch
+            switch(s[i])
+            {
+                case'I':
+                    num+=1;
+                    continue;
+                case'V':
+                    num+=5;
+                    continue;
+                case'X':
+                    num+=10;
+                    continue;
+                case'L':
+                    num+=50;
+                    continue;
+                case'C':
+                    num+=100; 
+                    continue;   
+                case'D':
+                    num+=500;  
+                    continue;  
+                case'M':
+                    num+=1000;   
+                    continue;                      
+            }
+        }
+        for(int i=0;i<s.size()-1;i++)
+        {
+            //每个加完之后 与右边判断
+
+            if((s[i]=='I'&&s[i+1]=='V') || (s[i]=='I'&&s[i+1]=='X') ) num_L+=2;
+            if((s[i]=='X'&&s[i+1]=='L') || (s[i]=='X'&&s[i+1]=='C') ) num_L+=20;
+            if((s[i]=='C'&&s[i+1]=='D') || (s[i]=='C'&&s[i+1]=='M') ) num_L+=200;
+
+        }
+        
+        num=num-num_L;
+        return num;
+        
+    }
+};
