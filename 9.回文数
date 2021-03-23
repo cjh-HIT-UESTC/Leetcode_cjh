@@ -1,0 +1,80 @@
+class Solution {
+public:
+    bool isPalindrome(int x) {
+        //第一种想法
+        /*
+        //首先明显如果为负数 就判断为false
+        if(x<0)
+        return false;
+        int x_1=x;
+        //反序构成新的数
+        //尝试过了 不行 因为反序构成会造成溢出 所以无法
+        double ans=0;//用double来存放
+        //int INTMAX=pow(2,31)-1;//定义int的最大值
+        //开始循环，因为要用x/10,所以判断x/10之后是否等于0作为停止条件
+        while(x!=0)
+        {
+            //取出每一个当前最低位 即是 出栈
+            int pop = x%10;
+            //让x缩小，不要取出的最后一位
+            x=x/10;
+            //假如不判断是否溢出
+            //ans=ans*10+pop;//此表达式表示当前pop每次都要乘以1100
+            //需要判断溢出
+            //正数情况的判断
+            ////if(ans>INTMAX/10 ||(ans==INTMAX/10&&pop>7)) return 0;
+            //负数情况的判断
+            ////if(ans<(-INTMAX/10)||(ans==(-INTMAX/10)&&pop>8)) return 0;
+
+            ans=ans*10+pop;
+        }
+        if(ans==x_1)
+        return true;
+        else 
+        return false;
+        */
+
+        //第二种 因为第一种是用的double来存放的数据，现在考虑只使用int来存放
+        //分析回文字的特点 如果是回文字 则 只反一半即可 如果相等为回文字 如果不相等 就不是
+        //又因为小于0必为flase
+        //又因为要反转一半 如果最低位为0 那么就不能去比较大小 但是 最高位必没有00的 所以直接判为false
+        if (x<0 || (x%10==0&&x!=0))
+        return false;
+
+        //反转一半的关键 在于如何判断已经翻了一半 并且要考虑为奇数个和偶数个的 数的情况
+        //那么 想到翻转的数字在变大 剩下的数字在变小 于是考虑使用他们的大小进行终止判断
+        //现只考虑偶数个情况
+        /*
+        int pop=0;
+        int ans=0;
+        while(ans<x)
+        {
+        pop=x%10;
+        x/=10;//前面的数
+        ans=ans*10+pop;//后面的数
+        }
+        if(ans==x)
+        return true;
+        else
+        return false;
+        */
+
+        //现只考虑奇数个 的情况
+        //那么核心就是判断出位于中间的那个数字
+        //想了一下 实在是不好找位于中间的数字 那么转换思路看能不能在两个翻转后的数之间找到关系
+        //比如 123和12 只要把3剔除掉即可 那么很简单 可以使用/10
+        //所以以下为改后的程序
+        int pop=0;
+        int ans=0;
+        while(ans<x)
+        {
+        pop=x%10;
+        x/=10;//前面的数
+        ans=ans*10+pop;//后面的数
+        }//注意ans始终大于等于x
+        if( (ans==x) || (ans/10 == x))
+        return true;
+        else
+        return false;
+    }
+};
