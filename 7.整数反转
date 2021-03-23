@@ -1,0 +1,86 @@
+class Solution {
+public:
+    int reverse(int x) {
+        /*
+        //第一种 直接利用求模运算 暴力求解
+        if(x==-pow(2,31))
+        return 0;
+        vector<int>ans(32);
+        int i=1;
+        int j=1;
+        //判断是否为负数
+        if(x<0)
+        {
+            j=-1;
+            x=-x;
+        }
+        int b=0;
+        b=x/10;//降一位
+        //取出个位
+        ans[0]=x%10;
+        while(1)
+        {
+            if(b==0)
+                break;
+            else
+                {
+                //取出最后一位
+                ans[i]=b%10;
+                i++;
+                //降一位
+                b=b/10;
+                }
+        }
+        //构造返回的整数
+        int num=ans[i-1];
+        int jj=1;
+        int ii=1;
+        int label=-1;
+        //int MAX=pow(2,31);
+        //2的31次方2 147 483 648的
+        //int MAX_on=MAX/10;
+            
+        for( ii=i-2, jj=1;ii>=0&&jj<=i-1;ii--,jj++)
+        {
+            
+            num+=(ans[ii]*pow(10,jj));
+            if((i==10&&ii==1)&&((i==10&&num>147483648&&ans[0]>=2)||(i==10&&ans[0]>2)))
+            {
+                
+                label=1;
+                break;
+            }
+            //jj++;
+        }
+        if(label==1)
+        return 0;
+        if(j==-1)
+        return -num;
+        else
+        return num;
+        */
+
+        //第二种 化简 不用vector容器 直接利用栈的思想 进行数的出栈
+        int ans=0;
+        int INTMAX=pow(2,31)-1;//定义int的最大值
+        //开始循环，因为要用x/10,所以判断x/10之后是否等于0作为停止条件
+        while(x!=0)
+        {
+            //取出每一个当前最低位 即是 出栈
+            int pop = x%10;
+            //让x缩小，不要取出的最后一位
+            x=x/10;
+            //假如不判断是否溢出
+            //ans=ans*10+pop;//此表达式表示当前pop每次都要乘以1100
+            //需要判断溢出
+            //正数情况的判断
+            if(ans>INTMAX/10 ||(ans==INTMAX/10&&pop>7)) return 0;
+            //负数情况的判断
+            if(ans<(-INTMAX/10)||(ans==(-INTMAX/10)&&pop>8)) return 0;
+
+            ans=ans*10+pop;
+        }
+        return ans;
+    }
+};
+
