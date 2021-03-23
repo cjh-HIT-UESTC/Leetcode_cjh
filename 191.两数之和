@@ -1,0 +1,47 @@
+//第一次
+class Solution {
+public:
+    int hammingWeight(uint32_t n) {
+        int ret=0;
+        int ans=0;
+       
+        for(int i =0;i<16;i++)
+        {
+            ans=n & ((3<<(2*i)));
+            
+            if(ans==3<<(2*i))
+                ret+=2;
+            else if(ans==0)
+                continue;
+            else
+                ret++;
+        }
+        return ret;
+    }
+};
+//第二次
+class Solution {
+public:
+    int hammingWeight(uint32_t n) {
+        int ret=0;
+        for(int i =0;i<8;i++)
+        {
+
+            int R=3<<(2*i);
+            int ans_R=n&R;
+            if(ans_R==R )
+                ret+=2;
+            else if(ans_R!=0 )
+                ret++;
+            int L=R<<16;
+            int ans_L=n&L;
+            if(ans_L==L)
+                ret+=2;
+            else if(ans_L!=0 )
+                ret++;
+        }
+        return ret;
+    }
+};
+
+
