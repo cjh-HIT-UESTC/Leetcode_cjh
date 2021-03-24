@@ -1,0 +1,185 @@
+class Solution {
+public:
+    string longestCommonPrefix(vector<string>& strs) {
+        //实验   字符串怎么输出  可以从字符串组中取出一个   然后再对这个进行拷贝 得到里面的某几个字符
+        /*
+        string s1 = strs[0];//flower
+        string a=s1.substr(0,2);//输出了fl
+        return a;//标记为了“fl“
+        */
+         //实验   怎么求字符串数组的长度
+         //int a=0;
+         //a=strs.size(); 
+         //针对vector容器 可以用size（）来求出它的长度
+         //实验   怎么输出    ““
+         //return "";//输出了""
+         //实验    substr超出长度
+
+
+
+         //第一种  
+         //考虑要对字符串组每一个字符串 由开头进行比较 那么必然需要一个for循环取出字符串组中的每一个字符串
+         //然后 再考虑 用一次循环 对每一个字符进行比较
+        //之前写的全部            int label=0;//标记  用于标记到第几位出现不同
+         //int j=1;//用于循环
+         //之前写的全部            for(int i = 0，int j=0 ;i<strs.size()-1 && j>-1 ;i++，j++)//因为有i+1的出现所以size-1，j>0表示一直为真
+        //j之所以从00开始 是因为 第一次循环用不到j ,j从能用到开始就是从 1开始的
+        //  最后想到的          到这一步我想到 j和i不是同时变 而应该是j的循环里包括i的循环   所以全部重新写
+        //之前写的全部             {
+            // strs[i];//这里 strs[i]指的的字符串数组中 每一个字符串
+            //for(int j =0;)//一开始我考虑使用for循环 进行对每个字符串的每一个字符 进行一个一个比较
+            //但是发现 有一个问题 那就是无法确定停止条件 因为每一个字符串并不是等长度的 所以考虑使用while
+            /*   第一次考虑的想法
+            while()
+            {
+                strs[i].substr(j,j+1)
+                //到这一步 我发现 不好进行一个一个字符相比 于是重新考虑
+            }
+            */
+        //之前写的全部                if(strs[i].substr(0,1) != strs[i+1].substr(0,1))//找了不同 必不为最长公共前缀
+        //之前写的全部                return "";
+            //到这里 我想到了   如果每个字符的首字符有不相同的 那么必输出""
+            //而每一个 字符串的首字符若相等 则必有最长公共前缀 所以 就能判断出   输出““与否
+
+            //为了看 停止条件 那么需要做一个实验：看看substr函数超出了strs的长度 会发生什么
+            //实验    substr超出长度
+            /*
+            string s1 = strs[0];//flower
+            string a=s1.substr(0,10);//超出了范围,输出了flowe
+            return a;//标记为了“fl“
+            */
+            //到这一步 我就知道该怎么做了 因为超出了 也只是为它本身的字符串 所以就可以直接去判断了
+            //因为已经判断了不存在公共前缀的情况 所以以下的情况为 必有公共前缀
+            //for(int j=1;;j++)//让j无限增加 break条件为当存在不相等字符串时  （暂时不考虑全部字符串相同）
+            //{
+            //复制下去    if(strs[i].substr(j,1) != strs[i+1].substr(j,1))
+            //复制下去    {
+            //复制下去        label=j;//标记着 在第j位出现不同 那么就输出前j位
+            //复制下去    }
+            //}
+            //发现了问题： 第二个for循环不正确 会只在两个字符串间进行循环 所以 重新考虑
+            //因为j需要和i同时改变 所以想到 把j放到和i相同改变的地方 所以就是放到for循环里面
+        //之前写的全部                if(i!=0)//当i不等于00时才进行下面的语句
+        //之前写的全部                {
+        //之前写的全部                        if(strs[i].substr(j,1) != strs[i+1].substr(j,1))
+         //之前写的全部                       {
+         //之前写的全部                       label=j;//标记着 在第j位出现不同 那么就输出前j位
+        //之前写的全部                        }
+         //之前写的全部               }
+       //之前写的全部             }
+
+       //重新写
+       /*
+       int label=-1;//标记  用于标记到第几位出现不同
+        //因为j的循环包括i    (不考虑全相同)
+        for(int j =0;;j++)
+        {
+            for(int i=0;i<strs.size()-1;i++)
+            {
+                if(j==0)//当j=0时执行 判断是否有最长公共前缀
+                {
+                    if(strs[i].substr(0,1) != strs[i+1].substr(0,1)) return "";//首字符有不同的情况存在
+                }
+                else
+                {
+                    if(strs[i].substr(j,1) != strs[i+1].substr(j,1))//在第j位开始出现不同
+                    {
+                        label=j;
+                        break;
+                    }
+                }
+            }
+            if(label!=-1)
+            {
+                break;
+            }
+        }
+        return strs[0].substr(0,label);
+        */
+        //以上的代码是不考虑全部相同的情况能正确运行的代码 现在做修改使得能全部情况正确 
+        //输出实验  输出了22
+        /*
+        for(int i=1;i<10;i++)
+        {
+            if(i=2)
+            {
+                return "2";
+            }
+        }
+        return "3";
+        */
+         
+         //重新改写    考虑全部相同的情况  关键就在于j循环的停止条件  (没有考虑到输入为空 【】的情况)
+         /*
+         int label=-1;//标记  用于标记到第几位出现不同
+        //因为j的循环包括i    (不考虑全相同)
+        for(int j =0;;j++)
+        {
+            for(int i=0;i<strs.size()-1;i++)
+            {
+                if(j>strs[i].size())//判断是否超出长度
+                {
+                    label=j-1;
+                    break;
+                }
+
+                if(j==0)//当j=0时执行 判断是否有最长公共前缀
+                {
+                    if(strs[i].substr(0,1) != strs[i+1].substr(0,1)) return "";//首字符有不同的情况存在
+                }
+                else
+                {
+                    if(strs[i].substr(j,1) != strs[i+1].substr(j,1))//在第j位开始出现不同
+                    {
+                        label=j;
+                        break;
+                    }
+                }
+            }
+            if(label!=-1)
+            {
+                break;
+            }
+        }
+        return strs[0].substr(0,label);
+        */
+
+
+      
+        //再加上考虑 输入空的情况
+        if(strs.size()==0) return "";
+        if(strs.size()==1) return strs[0];//判断特殊情况 只有一个字符 则必有公共字符前缀
+
+         int label=-1;//标记  用于标记到第几位出现不同
+        //因为j的循环包括i    (不考虑全相同)
+        for(int j =0;;j++)
+        {
+            for(int i=0;i<strs.size()-1;i++)
+            {
+                if(j>strs[i].size())//判断是否超出长度
+                {
+                    label=j-1;
+                    break;
+                }
+
+                if(j==0)//当j=0时执行 判断是否有最长公共前缀
+                {
+                    if(strs[i].substr(0,1) != strs[i+1].substr(0,1)) return "";//首字符有不同的情况存在
+                }
+                else
+                {
+                    if(strs[i].substr(j,1) != strs[i+1].substr(j,1))//在第j位开始出现不同
+                    {
+                        label=j;
+                        break;
+                    }
+                }
+            }
+            if(label!=-1)
+            {
+                break;
+            }
+        }
+        return strs[0].substr(0,label);
+    }
+};
