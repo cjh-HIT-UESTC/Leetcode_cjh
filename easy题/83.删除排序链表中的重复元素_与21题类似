@@ -1,0 +1,101 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        //这道题是链表 指针 结构体指针题 与之前做的那道21很相似,所以基本操作应该都一样
+        //分析本题：要对链表里每个数据进行比较（相同与否），然后进行删除操作（重新拼接）
+
+        //那么首先，如何进行每个数据的比较？
+        //首先想到可以循环（用是否为空指针）    并且需要注意的是该链表为升序的
+        //我想到了：依旧把这个链表看作一个栈P：并且还要新定义一个新栈A
+        //首先从栈P中POP栈顶（如果为空直接返回空），
+        //然后用A的栈顶和P的栈顶作比较，如果与A的栈顶相等，则pop出栈A的顶并舍弃（仅栈A的指针移动）
+        //如果不相等，就pop出栈P的顶，并放进栈A，这样一直运行到链表栈P为空
+
+        //先判断是否为空,或者仅只有一个数字
+        if(head == nullptr || head->next == nullptr)
+        {
+            return head;
+        }
+ 
+        //现在一定不为空了，那么就需要新定义一个新栈A，注意：这里必须用new给它实际分配空间，并初始化！！！！！！！！！！！
+        ListNode* A = new ListNode();//数值初始化为0了
+        ListNode* prehead = A;//用这个头指针指向这个A，便于后续输出
+
+  /*      
+        A->next = head;//把链表的栈顶先拿出来递给栈A
+        A=A->next;//指针指向的位置要跟着移动一位
+        head=head->next;
+
+        //ListNode* p_label= new ListNode();//定义一个指针，来存放最后的指针位置，来解决之后会遇到的尾巴问题
+       //  ListNode* pp = p_label;
+
+        while(head != nullptr)//开始循环
+        {
+            if(A->val == head->val)
+            {
+                //两个栈顶相等了。就只把链表栈的指针移动一位
+                //p_label = head;
+                head = head->next;
+            }
+            else
+            {
+                //不相等，就把链表栈的栈顶pop出来放进栈A
+                A->next=head;
+                //A的指针要移动
+                A=A->next;
+                //链表栈的指针也要移动
+               //p_label = head;
+                head=head->next;
+            }
+        }
+        //A->next = pp;
+        return prehead->next;//返回的是头指针的下一位
+*/
+    //存在尾巴问题  所以改进：用一个指针来存放最后的head位置（最后一位），再拼接给A
+
+        
+    //以上有一个问题，那就是这个链表并不是真正的栈，并不是真正的一个一个的pop而是一下子跟着后续的链表，所以会造成输出错误
+
+    //我想了下，做以下改进，基础思想还是用一个新的链表栈，但是在循环里是每两个每两个的作比，一旦相同，就把指针移位，继续比较
+    //直到两个数不相同的，再把这个位置的指针拿给那个新的链表栈，这样就不会造成 新的链表栈里元素的重复
+    
+    //ListNode* p_label=new ListNode() ;//定义一个指针，来存放最后的指针位置，来解决之后会遇到的尾巴问题
+
+    ListNode* p_label= new ListNode(-1);//定义一个指针，来存放最后的指针位置，来解决之后会遇到的尾巴问题
+    //ListNode* pp = p_label;
+
+    while(head->next !=nullptr)//循环依旧是不为空指针
+    {//链表里的元素多于1个
+        if(head->val == head->next->val)//这里当head->指向空时
+        {
+            p_label = head;//存放当前head指针
+            head = head->next;//head移一位
+        } 
+        else
+        {
+            A->next = head;//链表A的下一处位置由这个head这个位置开始
+            A=A->next;//A要移位
+            p_label = head;//存放当前head指针
+            head=head->next;//head要移位
+        }
+    }
+    //到这里为止，依旧还是尾部会有重复的
+    //但是A指针的位置指向的是最后一种数字的前一位
+    //所以可以利用循环来得到最后一位的指针  再给A
+    A->next = p_label->next;
+
+    return prehead->next;
+    //return p_label;
+
+    }
+};
