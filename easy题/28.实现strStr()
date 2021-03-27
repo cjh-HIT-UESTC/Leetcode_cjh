@@ -1,0 +1,40 @@
+class Solution {
+public:
+    int strStr(string haystack, string needle) {
+        //注意 当needle为空时，返回0    当haystack为空时，自然找不到，返回-1
+        //本题处理的对象时字符串 
+        //首先，当needle的长度大于haystack的长度时，返回-1
+        //然后 肯定需要得到needle的长度（假设为n），然后以这个n的长度 去依次遍历haystack 查找里面是否有相同的字符串
+        //  因为要用到 按一定长度（n）取字符串，那么必然需要用到substr()函数
+        
+        //开始写
+        //首先讨论特殊情况
+        //needle为空
+        if(needle.size()==0)
+        {
+            return 0;
+        }
+        //当haystack为空
+        if(haystack.size()==0)     
+        {
+            return -1;
+        }
+        //当needle必haystack长
+        if(needle.size() > haystack.size())   
+        {
+            return -1;
+        }
+  
+        //下面是正常情况
+        
+        for(int i=0;i<haystack.size() - needle.size()+1 ;i++ )
+        {
+            if(needle == haystack.substr(i,needle.size()) )     
+            {
+                return i;
+            }
+        }
+        return -1;
+        
+    }
+};
