@@ -1,0 +1,51 @@
+class Solution {
+public:
+    int searchInsert(vector<int>& nums, int target) {
+        //首先当给定数组为空时，直接返回0
+        //本题 输入的是数组 和目标值 需要注意的是 数组为已经排好序的数组
+        //然后需要开始遍历数组
+        //一旦找到数组中有相同的数，就返回其索引  ，在这个基础上 如果没找到，并且找到了一个比它还要大的数，就返回这个数的索引
+        //如果没有相等的，并且也没有比它大的数，就返回最后的数的索引
+
+        //开始写
+        //首先是特殊情况
+        ////if(nums.empty()) return 0;//'nums' to have 1 <= size <= 10000 but got 0 说明不用考虑这种情况
+/*
+        for(int i=0; i<nums.size();i++)
+        {
+            if(nums[i] == target)//找到了相同的
+            {
+                return i;
+            }
+            else if(nums[i]>target)//找到了第一个比它大的数
+            {
+                return i;
+            }
+        }
+        //什么都没找到
+        return nums.size();
+*/
+        //本题最合适，也最自然的想法，就是利用二分法，这样才能更快        本题的二分法的目标应该是找到数组中第一个大于等于它的位置索引
+
+        int left=0;
+        int right=nums.size()-1;
+        while(right >= left)//结束条件是 右边小于等于左边
+        {
+            if(nums[(right+left)/2] < target)//二分,比目标值小于  ，就让左边值更新
+            {
+                left = (right+left)/2+1;
+            }
+            if(nums[(right+left)/2] > target)//二分,比目标值大于  ，就让右边值更新
+            {
+                right = (right+left)/2-1;
+            }
+            if(nums[(right+left)/2] == target)
+            {
+                return (right+left)/2;
+            }
+        }
+        if(left==0)     return (right+left)/2;
+        else return (right+left)/2+1;
+
+    }
+};
