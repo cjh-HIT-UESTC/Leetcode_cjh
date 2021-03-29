@@ -1,0 +1,34 @@
+class Solution {
+public:
+    int lengthOfLastWord(string s) {
+        //拿着看到第一反应：从字符串最后开始返回，找空格 
+/*
+        int i=s.size()-1;//返回字符串长度，空格也算一个长度
+        for(i;i>=0;--i)
+        {
+            if(s[i] == ' ') return s.size()-i-1;//需要注意的是 在string里单个字符是char类型：''
+        }
+        return s.size();
+*/
+        //以上没有考虑字符串以空格结尾 那么就不能单纯直接找倒序第一个空格
+
+       // int i=s.size()-1;//返回字符串长度，空格也算一个长度
+  
+        int j=0;//表示找到的空格数（从最后一位开始到碰到第一个不是空格的字符处）
+        for(int a=0,i=s.size()-1;i>=0;--i)//int a=0,i=s.size()-1;i>=0;--i只能这样一个int 对应两个，不能int a, int i
+        {
+            if(a==1 || s[i] !=' ' )//如果从最后面开始不是空格了
+            {
+                 a=1;
+                if(s[i] == ' ') return s.size()-i-j-1;//需要注意的是 在string里单个字符是char类型：''
+            }
+            else
+            {
+                j++;//记录找到了几个空格
+            }
+        }
+        return s.size()-j;
+
+
+    }
+};
