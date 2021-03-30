@@ -1,0 +1,36 @@
+class Solution {
+public:
+    vector<int> plusOne(vector<int>& digits) {
+        //输入为数组 输出为数组 从最后一位判断是否为9
+        //对于判9和置0 还有加1我想到的第一种：直接判断和设置
+        //我再一想  想到了用取余运算9+1%10=0，其他的0到8取余都不会为0，所以可以作为判断
+
+        /*1,设置是否进位 in  
+            2、只有为9时加1取模才为0
+            3、当找到不为9的地方停止,然后加1，并把后面那些置0
+        */
+
+        vector<int> ret(digits.size());////初始化为0了
+
+        ret[digits.size()-1] = (digits[digits.size()-1] +1) % 10;
+        digits[digits.size()-1] = digits[digits.size()-1] +1;
+        for(int i=digits.size()-1;i>0;--i)
+        {
+            digits[i-1] += digits[i] / 10;
+            ret[i-1] = digits[i-1] % 10;//超过1100就变为对应的个位
+
+        }
+        //全为9的话 返回的ret就为全0    所以就可以用首位是否为00来判断（因为正常情况下不会为0）
+        if(ret[0]==0)
+        {
+            vector<int> ret1(digits.size()+1);
+            ret1[0]=1;
+            return ret1;/////返回的vector是 用中括号括起来的{}
+        }
+        return ret;
+
+
+
+
+    }
+};
