@@ -1,0 +1,93 @@
+class Solution {
+public:
+    string addBinary(string a, string b) {
+        ////输入输出的是字符串  并且模拟的是二进制逢二进一  我一开始考虑的是把字符转成整形  但是这样会导致效率低下 所以我考虑使用对应的ASCLL码
+        int alen=a.size();
+        int blen=b.size();
+  
+        string l;//存放长的
+        string s;//存放短的
+        if(alen<=blen)
+        {
+            s=a.substr();
+            l=b.substr();
+        }
+        else
+        {
+            l=a.substr();
+            s=b.substr();
+        }
+        int llen=l.size();
+        int slen=s.size();
+
+        int in=0;////进位标识符
+        for(int i =s.size()-1 ;i>=0;--i )
+        {
+            if(in == 0)
+            {
+                ////无进位
+                if(l[i+llen-slen]+s[i]==98)//11
+                {
+                    l[i+llen-slen]='0';
+                    in=1;
+                }
+                else if(l[i+llen-slen]+s[i]==96)//00
+                {
+                    l[i+llen-slen]='0'; 
+                    in=0;
+                }
+                else////01或者10
+                {
+                    l[i+llen-slen]='1';   
+                    in=0;
+                }
+            }
+            else
+            {
+                ////有进位
+                if(l[i+llen-slen]+s[i]==98)//11
+                {
+                    l[i+llen-slen]='1';
+                    in=1;
+                }
+                else if(l[i+llen-slen]+s[i]==96)//00
+                {
+                    l[i+llen-slen]='1';     
+                    in=0;
+                }
+                else////01或者10
+                {
+                    l[i+llen-slen]='0';  
+                    in=1;
+                }
+            }
+        }
+        if(in==1)
+        {
+            for(int i=llen-slen-1;i>=0;--i)
+            {
+                if(in==1)
+                {
+                    if(l[i]=='1')
+                    {
+                        in=1;
+                        l[i]='0';
+                    }
+                    else
+                    {
+                        l[i]='1';
+                        in=0;
+                    }
+                }
+            }
+            if(in==1)
+            {
+                l.insert(l.begin(),'1');
+                in=0;
+            }
+        }
+        return l;
+        
+
+    }
+};
