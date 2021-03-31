@@ -1,0 +1,35 @@
+class Solution {
+public:
+    string replaceSpace(string s) {
+        //输入为字符串 输出为字符串
+        //可以遍历字符串，然后把空格换,可以使用erase,insert
+        /*
+        for(int i=0;i<s.size();++i)
+        {
+            if(s.at(i)==' ')
+            {
+                //先插入再删除这样就不需要i+1了，因为插入是在位置之前插入的
+                s.insert(i,"%20");
+                s.erase(i,1);
+            }
+        }
+        return s;
+        */
+        //以上因为调用了两个函数 超出了时间限制
+        string s1;
+        for(auto &c:s)
+        {
+            if(c==' ')
+            {
+                s1.push_back('%');
+                s1.push_back('2');
+                s1.push_back('0');
+            }
+            else
+            {
+                s1.push_back(c);
+            }
+        }
+        return s1;
+    }
+};
