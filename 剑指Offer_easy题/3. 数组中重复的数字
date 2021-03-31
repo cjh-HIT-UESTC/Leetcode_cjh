@@ -1,0 +1,31 @@
+class Solution {
+public:
+    int findRepeatNumber(vector<int>& nums) {
+/*
+        //输入为整型数组 输出为Int  
+        //本题只想做出来是很简单的 直接暴力的从头拿着去循环
+        for(int i=0;i<nums.size()-1;++i)
+        {
+            for(int j=i+1;j<nums.size();++j)
+            {
+                if(nums[i] == nums[j])
+                {
+                    return nums[j];
+                }
+            }
+        }
+        return -1;
+*/
+        //以上超出了时间限制，过于暴力
+
+        sort(nums.begin(), nums.end());
+        for(int i=0;i<nums.size()-1;++i)
+        {
+            if(nums[i]==nums[i+1])
+            {
+                return nums[i];
+            }
+        }
+        return -1;
+    }
+};
