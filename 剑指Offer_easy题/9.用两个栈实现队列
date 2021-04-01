@@ -1,0 +1,47 @@
+class CQueue {
+public:
+////题目的意思：插入整数 是压入栈 不返回元素 但是一旦删除 就出栈 就返回数了
+    stack<int> a;
+    stack<int> b;
+    CQueue() {
+        a.pop();//自带返回 为空直接返回null了,如果用top()就不行，所以只能用pop
+    }
+    
+
+//两个栈，实现先进先出，所以需要用两个栈来实现元素的换位
+
+    void appendTail(int value) {
+        ////a.push(value);//先压入a栈中
+        a.push(value);
+        
+    }
+
+
+
+    int ret=0;
+    int deleteHead() {
+       /* if(!a.empty())
+        {
+            while(!a.empty())
+            {                       
+            b.push(a.top());
+            a.pop(); 
+            }
+            ret=b.top();
+            b.pop();
+            return ret;
+        }
+        else
+        {
+            return -1;
+        }*/
+        return -1;
+    }
+};
+
+/**
+ * Your CQueue object will be instantiated and called as such:
+ * CQueue* obj = new CQueue();
+ * obj->appendTail(value);
+ * int param_2 = obj->deleteHead();
+ */
