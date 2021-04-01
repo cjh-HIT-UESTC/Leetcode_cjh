@@ -1,0 +1,38 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> reversePrint(ListNode* head) {
+        //输入为链表 输出为数组
+        //为空返空 因为输出为数组 那么必然需要重新开辟一个用于放数组的空间 关键在于不能直接用size从链表最后开始返回
+        //所以我想到第一种：挨个取元素放到数组里，最后再把数组反向
+/*
+        vector<int> ret;
+
+        while(head != NULL)
+        {
+            ret.push_back(head->val);
+            head=head->next; 
+        }
+        reverse(ret.begin(), ret.end());
+        return ret;
+    }
+    */
+    //另外的想法是利用栈 先放入栈中 再弹出到数组中
+    
+    //还有递归，但我觉得本题不适合用递归，递归的想法就是先递归到最后一个最后的元素，再返回  这样的效率很慢
+    if(!head)
+    {
+        return {};//空数组返回的是大括号{}
+    }
+    vector<int> ret=reversePrint(head->next);
+    ret.push_back(head->val);
+    return ret;
+    }
+};
