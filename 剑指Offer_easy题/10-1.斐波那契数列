@@ -1,0 +1,45 @@
+class Solution {
+public:
+    int fib(int n) {
+        /*
+        //输入为整数 输出为整数
+        if(n==0) 
+        {
+            return 0;
+        }
+        if(n==1)
+        {
+            return 1;
+        }
+        int ret=fib(n-1)+fib(n-2);
+        return ret;
+        //以上算法能实现，但是耗费时间太多
+        */
+        //记忆递归法 开辟一个数组来存放每次递归的数，以后遇到则直接取
+/*
+        ////开辟一个数组dp来存放每次递归的数
+        if(n==0) return 0;
+        if(n==1) return 1;
+        int ret[n+1];
+        ret[0]=0;
+        ret[1]=1;
+        for(int i=2;i<n+1;++i)
+        {
+            ret[i]=(ret[i-1]+ret[i-2])%1000000007;
+        }
+        return ret[n];
+*/
+        //以上因为要开辟一个数组空间（尽管是动态开辟），空间复杂度为On，为了节省空间，以下不开辟新数组,动态规划
+
+        if(n==0) return 0;
+        if(n==1) return 1;
+        int a=1,b=0,sum;//定义三个数，存放n-1,n-2,和
+        for(int i=2;i<n+1;++i)
+        {
+            sum=(a+b)%1000000007;
+            b=a;
+            a=sum;
+        }
+        return sum;
+    }
+};
