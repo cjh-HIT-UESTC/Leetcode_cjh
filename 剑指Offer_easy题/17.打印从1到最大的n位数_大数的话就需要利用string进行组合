@@ -1,0 +1,22 @@
+class Solution {
+public:
+    vector<int> printNumbers(int n) {
+        //输入为Int 输出为数组 里面存放的是数字
+        //首先肯定可以暴力的循环输入
+        int max=0;
+        for(int i=0;i<n;++i)
+        {
+            max=max*10+9;
+        }
+        vector<int> ret(max);
+        for(int i=0;i<max;++i)
+        {
+            ret[i]=i+1;
+        }
+        return ret;
+
+    }
+};
+一旦数很大时，要用字符串进行组合，首先固定首0-9，然后依次对每个符号递归后面加上0-9，直到到了个数位
+
+然后还需要删除每个字符的0开头的0，利用==‘0’
