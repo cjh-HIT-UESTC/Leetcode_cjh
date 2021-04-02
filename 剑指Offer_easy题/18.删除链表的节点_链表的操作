@@ -1,0 +1,29 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* deleteNode(ListNode* head, int val) {
+        ////此题是对链表操作，我第一想法：开始不断的依次找该val，一旦找到，把前面的指针指向后面的那个数据的指针，从而丢掉它（断掉再合）
+        if(val== head->val)
+        {
+            head=head->next;
+            return head;
+        }
+        ListNode* p=head;
+      
+        while(p->next->val !=val)//下一个指针的值
+        {
+            p =p->next;
+        }
+        p->next=p->next->next;//注意链表的操作 p指针的尾巴 指向 下一个指针的下一个指针
+        return head;
+
+
+    }
+};
