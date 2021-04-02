@@ -1,0 +1,50 @@
+class Solution {
+public:
+    vector<int> exchange(vector<int>& nums) {
+        ////输入为数组 输出为数组 我想到：可以定义两个数组 一个用来存放奇数一个用来存放偶数
+        /*
+        if(nums.size()==0) return nums;
+        vector<int>odd;
+        vector<int>even;
+        for(int i=0;i<nums.size();++i)
+        {
+            if(nums[i]%2==0) 
+            {
+                even.push_back(nums[i]);
+            }
+            else
+            {
+                odd.push_back(nums[i]);
+            }
+        }
+        for(int i=0;i<even.size();++i)
+        {
+            odd.push_back(even[i]);
+        }
+        return odd;
+        //以上能实现，但是耗费时间空间
+        */
+
+        vector<int> ret(nums.size());
+        
+        for(int i=0,j=0,jj=nums.size()-1;i<nums.size();++i)
+        {
+            if(nums[i]%2==0) 
+            {
+                ret[jj]=nums[i];
+                jj--;
+            }
+            else
+            {
+                ret[j]=nums[i];
+                j++;
+            }
+        }
+        return ret;
+    }
+};
+
+
+开始我想的是用两个数组，放完之后，再组装，但是我发现一个问题：数组的拼接只能一个一个push_back，所以这样会导致效率很低
+
+之后 因为想到数组长度已知 且不会变 所以直接定义一个数组 然后用双指针来改变位置
