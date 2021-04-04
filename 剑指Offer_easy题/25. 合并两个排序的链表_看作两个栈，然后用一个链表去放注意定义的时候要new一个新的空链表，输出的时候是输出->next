@@ -1,0 +1,43 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+        //输入为链表 输出为链表 因为要递增 所以一定需要遍历链表中的每个元素 判断大小 然后再先断开链表 再合上链表
+        //直到短的一根遍历结束，再把剩下的直接拼接上去
+        
+        ////看作两个栈 分别pop出元素
+        ListNode* p=new ListNode(0);
+        ListNode* head=p;
+        while(l1 && l2)
+        {
+            if(l1->val <= l2->val)
+            {
+                p->next=l1;
+                l1=l1->next;
+            }
+            else
+            {
+                p->next=l2;
+                l2=l2->next;
+            }
+            p=p->next;
+        }
+        if(!l1)
+        {
+            p->next=l2;
+        }
+        if(!l2)
+        {
+            p->next=l1;
+        }
+        return head->next;
+
+    }
+};
