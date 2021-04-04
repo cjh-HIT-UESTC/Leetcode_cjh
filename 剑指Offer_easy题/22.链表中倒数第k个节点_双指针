@@ -1,0 +1,48 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* getKthFromEnd(ListNode* head, int k) {
+        ////输入为链表和值 输出为链表和值  
+/*  
+        //因为有的是头节点 为了找到倒数第k个 必然需要不断的前进 那么首先的问题就是怎么找到倒数第k个 普通来说链表只能挨个遍历直到空指针
+        //因为给定一个链表 不知道它有多长 所以无法直接定位到倒数第k个 所以我想 先知道他有多长 然后再从头开始
+        ListNode* p1=head;
+        int num=0;
+        while(p1)
+        {
+            num++;
+            p1=p1->next;
+        }//有几个数 就返回几
+        for(int i=0;i<num-k;++i)
+        {
+            head=head->next;
+        }
+        return head;
+*/
+        ////以上方法能够实现目的 但是由于需要先遍历一遍指针，所以需要再考虑更好的方法       
+        //考虑到：因为不管怎么样 都要根据最后的位置来确定倒数第k个的位置 所以必然会指到最后 那么能不能在指针指到最后的一瞬间 就可以出结果了 而不再需要从头遍历
+        //于是想到用双指针 第一个指针和第二个指针之间差距k-1（A指针表示链表尾，B指针表示需要输出的位置指针）
+        ListNode* p1=head;//指向尾巴
+        ListNode* p2=head;
+        while(p1 && (k-1) )
+        {
+            p1=p1->next;
+            k--;
+        }
+        while(p1->next)//p1指向尾巴，所以要用它的next指针来作为判断条件
+        {
+            p1=p1->next;
+            p2=p2->next;
+        }
+        return p2;
+
+
+    }
+};
