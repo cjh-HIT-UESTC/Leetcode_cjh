@@ -1,0 +1,66 @@
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        //输入二维数组 输出二维数组 那么肯定要知道这个二维数组的大小 ，然后先右后下再左再右，重复进行
+        //先求行数
+        int h=matrix.size();
+        if(h==0)
+        {
+            return {};
+        }
+        //列数
+        int l=matrix[0].size();
+        
+
+        if(h==1)
+        {
+            return matrix[0]; 
+        }
+ 
+        int i=0;
+        int a=0;//列 左
+        int b=0;//行上
+        int j=0;
+        vector<int> num;
+        while(a<l && b<h  )
+        {
+            if(a<l && b<h)
+            {
+                for( j=a;j<l;j++)
+                {
+                    num.push_back(matrix[i][j]);
+                }  
+            }           
+            j--;
+            b++; 
+            if(a<l && b<h)
+            {
+                for(i=b;i<h;i++)
+                {
+                    num.push_back(matrix[i][j]);
+                }  
+            }    
+            i--;
+            l--;
+            if(a<l && b<h)
+            {
+                for(j=l-1;j>=a;j--)
+                {
+                    num.push_back(matrix[i][j]);
+                } 
+            }
+            j++ ;   
+            h--;
+            if(a<l && b<h)
+            {
+                for(i=h-1;i>=b;i--)
+                {
+                    num.push_back(matrix[i][j]);
+                } 
+            }            
+            i++;
+            a++;
+        }
+        return num;
+    }
+};
