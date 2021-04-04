@@ -1,0 +1,31 @@
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        //输入为一维数组向量 输出为int 首先 必定需要知道的右：数组长度 这个数字出现次数是否超过一半
+
+        //我想到了：先对数组排序 然后数组中间那个数 必为那个数字
+        /*
+        sort(nums.begin(),nums.end());
+        int num=nums[nums.size()/2];
+        return num;
+        */
+        //摩尔投票法 因为超过一半 所以是众数就+1否则减1，并假定每次抵消时的首字符是众数      需要注意的是 每次抵消为00后 之后必然还会有数 所以下一次的众数就从这里的首数字开始假设
+        int x=0;
+        int sum=0;
+        for(int num :nums)
+        {
+            if(sum==0) x=num;
+            sum+= num == x ? 1:-1;
+        }
+        return x;
+    }
+};
+
+本题第一种解法 很容易想到 进行sort排序 排序后的中位数必为答案  这里sort的用法：sort(a.begin(),a.end()) 返回拍好序的a
+
+第二种，也是最好的解法  摩尔投票法  仅对于这种 众数多于一半的问题有效 因为可以假设第一个数为众数 然后只要和它相等就加一 否则减一
+    一旦票数为0之后 就重新假设众数 因为为0之后必然还有数 
+    所以
+    for(int num:nums)注意这里的写法  和字符串的遍历类似
+    if（sum == 0)x=num;
+    sum+=num==x?1:-1;
