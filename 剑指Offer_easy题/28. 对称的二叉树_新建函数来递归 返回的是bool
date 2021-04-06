@@ -1,0 +1,59 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool isSymmetric(TreeNode* root) {
+        //首先很容易想到的就是 先镜像再比较   但我想能不能直接比较 
+        //总而言之 就是递归  左节点的左 要和右节点的右 相等   可以从最外层向地面递归   分析可以知道 为了递归那么必然需要向函数输入两个参数 所以需要重新定义函数
+        if(!root)
+        {
+            return true;
+        }
+        else
+        {
+            return  isSymmetric(root->left,root->right);
+        }
+    }
+
+
+        bool isSymmetric(TreeNode* left,TreeNode* right)
+        {
+            //结束条件是 两个节点都为空
+            if(!left && !right)
+            {
+                return true;
+            }
+
+            if(!left||!right|| left->val != right->val)
+            {
+                return false;
+            }
+            return    isSymmetric(left->left,right->right) &&  isSymmetric(left->right,right->left);
+           // return    isSymmetric(left->right,right->left);       注意这里不能两次调用 因为这样只能由这里决定  所以要用与运算
+        }   
+};
+
+在本题中 返回的是bool型  在递归中 需要注意的是停止条件  也就是何时判断为真 何时判断为假
+在本题中：一旦左右不相等 或者 一旦一边为空了 而另一边不为空 （因为要-》val所以要在之前判断是否为空指针）
+        而一旦以上情况都没发生  并且已经走到两个指针都是空了  则说明正确了 就输出true
+        
+     所以本题学到了：对于递归要认真判断结束（判正确和判错误）的条件   
+     
+     并且在本题中 我还学会了 对于bool类型 递归时返回自己是不会直接跳出然后返回的：return    isSymmetric(left->left,right->right) &&  isSymmetric(left->right,right->left);
+     这里返回的是最底层的那里，在之前，已经全部都判断过了
+     
+
+
+
+
+
+
+
+
