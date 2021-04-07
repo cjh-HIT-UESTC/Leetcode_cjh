@@ -1,0 +1,12 @@
+首先第一种方法：直接两次遍历字符串： auto &c:s  也可以：char ch:s  并用一个标志位来进行标志
+
+第二种，使用哈希表：unordered_map<int,int> map;    遍历字符串，利用字符的ascall码 没出现一次就次数+1  ：++map[ch];//出现一次就加1
+
+第三种：利用哈希表来存放索引：unordered_map<char, int> position;//注意是定义的 char int
+          利用(position.count(s[i])  来查看哈希表里是否有了这个键  有了就把值置为-1   否则就存放位置索引
+          然后遍历哈希表的值：
+          auto [_, pos]: position    注意这里 是auto [_,pos]:position   注意这种遍历方式
+          然后找到第一个位置
+          
+          
+
