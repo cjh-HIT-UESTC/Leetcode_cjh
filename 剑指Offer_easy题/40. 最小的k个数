@@ -1,0 +1,41 @@
+class Solution {
+public:
+    vector<int> getLeastNumbers(vector<int>& arr, int k) {
+        ////利用堆的思想 先把前k个数放进堆 然后再慢慢的作比 进堆  这个堆是个大根堆 每次与堆顶相比 比堆顶小的话 就放入大根堆 大根堆会自动排序
+        vector<int>ret(k,0);
+        if(k==0)
+        {
+            return ret;
+        }
+
+        //建立大根堆
+        priority_queue<int>Q;
+
+        //把前k个放进去
+        for(int i=0;i<k;++i)
+        {
+            Q.push(arr[i]);
+        }
+
+        //从第k+!个开始遍历
+        for(int i=k;i<arr.size();++i)
+        {
+            //如果小于堆顶
+            if(arr[i]<Q.top())
+            {
+                //先出堆顶 再进
+                Q.pop();
+                Q.push(arr[i]);
+            }
+        }
+
+        //把循环完的堆放入数组中输出
+        for(int i=0;i<k;++i)
+        {
+            ret[i]=Q.top();
+            Q.pop();
+        }
+        return ret;
+
+    }
+};
