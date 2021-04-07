@@ -1,0 +1,38 @@
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        ////此题重要的是理解题意 只要加过去大于等于0就还有希望继续加 如果一旦小于0了 就返回之前的大小 并从下一位开始 
+        //       贪心算法
+        /*
+        int max=nums[0];//定义最终的结果最大和 初始化为第一个数字
+        int ret=nums[0];
+        //要遍历整个数组  从第二个位置开始
+        for(int i=1;i<nums.size();++i)
+        {
+            if(ret<0)
+            {
+                ret=0;
+            }   
+            if(ret>=0)
+            {
+                ret += nums[i];
+                if(ret>max)
+                {
+                    max=ret;
+                }
+            }    
+        }
+        return max;
+        */
+        //以上是贪心算法 下面使用动态规划
+
+        //利用nums本身而不开辟新的空间
+        int max=nums[0];
+        for(int i=1;i<nums.size();++i)
+        {
+            nums[i]+=nums[i-1]>0?nums[i-1]:0;
+            max=nums[i]>max?nums[i]:max;
+        }
+        return max;
+    }
+};
