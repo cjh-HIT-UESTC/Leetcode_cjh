@@ -1,0 +1,55 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        //输入链表 A和B 输出开始相交的链表 不相交就输出null
+        // 猜想：一旦两条链表有相等的值 就从当前位置开始输出（错了，观察示例1就知道不是这样）
+        //而是这两个链表 会从某一处开始 指向同一段链表  应该用指针指向是否相同来判断
+        /*
+        ListNode* p1=headA;
+        while(p1 )
+        {
+            ListNode* p2=headB;
+            while(p2)
+            {
+                if(p1 == p2) 
+                {
+                    return p1;
+                }
+                p2=p2->next;
+            }
+            p1=p1->next;
+        }
+        return nullptr;
+        */
+        //以上算法能够实现 但是由于每次都要重新遍历 非常耗费时间
+        //观察本题 可以发现有一些特殊点：链表A可以看作长度：a+c 链表B长度可以看作：b+c  c为公共长度 
+        //本题关键在于 如何让两个指针相遇   所以可以把两条链表的长度加起来 这样两条都是：a+b+2c  都从头开始走 这样一旦相遇 则必然在位置c处相遇
+        //从a位置走：走了a+c 再走b 就走了a+c+b    
+        //从b位置走，走了b+c 再走a 就走了b+c+a 这时他们就在公共节点相遇（如果这里没相遇 就返回nullptr）
+
+        ListNode* p1=headA;
+        ListNode* p2=headB;
+
+        while(p1!=p2)
+        {
+            p1=p1==nullptr?headB:p1->next;//用这样的判断 能让p1和p2同时指向nullptr 从而跳出循环
+            p2=p2==nullptr?headA:p2->next;
+        }
+        return p1;
+
+        
+
+
+
+
+        
+    }
+};
