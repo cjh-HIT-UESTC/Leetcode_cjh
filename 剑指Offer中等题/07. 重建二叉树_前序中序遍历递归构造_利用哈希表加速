@@ -1,0 +1,108 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+ /*
+class Solution {
+public:
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        //前序遍历：有着必然的规律：第一个节点是根节点 之后一直是左子树 然后是右子树 从上到下 先左后右
+        //中序遍历：先是左子树 然后是根节点 然后是右子树    先左儿子 再父亲 再右儿子
+        //所以可以根据根节点确定 左子树和右子树的长度  
+
+        //因为要用递归 所以先知道本函数的作用：输入前序遍历 和中序遍历 得到根节点   
+        //递归：下次调用 输入 根节点的左节点的前序遍历 和中序遍历 得到左节点 同理得到右节点 这样不断的下去即可
+
+
+
+        ////先特殊情况：节点为0
+        if(!preorder.size() || !inorder.size()) return nullptr;
+
+        //定义根节点  它的值是preorder的头
+        TreeNode* root=new TreeNode(*preorder.begin());///注意这里 输入的是preorder的开始的数据 
+
+        //根据前序遍历知道了根节点 查找在中序遍历的位置
+        vector< int >::iterator it=find(inorder.begin(),inorder.end(),*preorder.begin());//注意find函数的用法  这里是找指针头的值   还要注意一点 这里的find用于容器 返回的是一个指向目标值位置的迭代器 而不是简单的int型
+        ////或者可以用auto :             auto it=find(inorder.begin(),inorder.end(),*preorder.begin());
+
+        //根据找到的位置 在中序遍历中 构建左子树和右子树
+        vector<int>inorderleft(inorder.begin(),it);//注意这里 区间是左闭右开
+        vector<int>inorderright(it+1,inorder.end());
+
+        //根据找到的左子树 和 右子树 在前序遍历中 确定前序的左子树和右子树
+        vector<int>preorderleft(preorder.begin()+1,preorder.begin()+1+inorderleft.size());
+        vector<int>preorderright(preorder.begin()+1+inorderleft.size(),preorder.end());
+
+        //因为要递归所以要在前面添加递归程序
+        //return root;//返回根节点   
+
+
+        //递归输入 左子树的前序遍历和中序遍历 右子树同理   因为函数返回的是当前根节点 所以要在这里将树链接起来
+        root->left = buildTree(preorderleft,inorderleft);
+        root->right = buildTree(preorderright,inorderright);
+
+        //返回找到的根节点
+        return root;//因为是递归 所以最后返回的是最上面的头节点
+
+    }
+};
+*/
+
+
+        //以上代码实现的是递归 但是由于每次都要重新在中序遍历中找根节点 很慢 所以可以考虑使用哈希表先存放 然后后续就方便查找
+
+class Solution {
+    //因为哈希表是要在函数外部构建 所以定义私有变量 并且重新定义函数
+private:
+    //定义哈希表 存到数据值 和对应的位置索引
+    unordered_map<int,int>index;
+
+public:
+    //自定义的构建二叉树的函数
+    TreeNode* mybuildTree(const vector<int>& preorder, const vector<int>& inorder,int preorderleft,int preorderright,int inorderleft,int inorderright) {
+        //一旦最左边的索引大于最右边
+        if(preorderleft>preorderright)
+        {
+            return nullptr;
+        }
+
+        //设定根节点 位置
+        int preorderroot = preorderleft;
+        
+        //设定中序遍历里 的根节点 位置
+        int inorderroot=index[preorder[preorderroot]];
+
+        //计算左子树的长度
+        int len = inorderroot - inorderleft;
+        
+        //定义根节点
+        TreeNode* root = new TreeNode(preorder[preorderroot]);
+
+        //递归返回        关键就在于下面的递归函数的参数
+        root->left = mybuildTree(preorder, inorder,preorderleft+1,preorderleft+len,inorderleft,inorderroot-1);
+        root->right = mybuildTree(preorder, inorder,preorderleft+len+1,preorderright,inorderroot +1,inorderright);
+        return root;
+    }
+
+    //主函数
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        ////先特殊情况：节点为0
+        if(!preorder.size() || !inorder.size()) return nullptr;
+        //把数据存放进哈希表  注意这里仅需要存放中序遍历 因为前序遍历只需要利用头 和中序遍历结果的长度
+        for(int i=0;i<inorder.size();++i)
+        {
+            index[inorder[i]]=i;
+        }
+        return mybuildTree(preorder, inorder,0,preorder.size()-1,0,preorder.size()-1);
+
+        
+        
+    }
+};
+
+
