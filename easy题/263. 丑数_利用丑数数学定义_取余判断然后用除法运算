@@ -1,0 +1,24 @@
+class Solution {
+public:
+    bool isUgly(int n) {
+        //自然的想到求余 但是注意是只包含
+        //特殊情况
+        if(n==1) return true;
+        if(n<=0)    return false;
+        while(n%2 ==0)
+        {   
+            n /= 2;
+        }
+        //直到它不再是偶数
+        while (n % 5 == 0)//  注意判断用求余来判断   但操作的时候 要用除法不断更新n
+        {
+            n  /= 5;
+        }
+        while (n % 3 == 0)
+        {
+            n /= 3;
+        }
+        if(n==1)  return true;
+        else    return false;
+    }
+};
