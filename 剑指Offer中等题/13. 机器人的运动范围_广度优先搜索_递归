@@ -1,0 +1,38 @@
+class Solution {
+
+private:
+    int sum;
+    int myfunc(vector<vector<int>> &vec,int m,int n,int k,int i,int j)
+    {
+        if(i<0 || i>=m ||j<0||j>=n ||vec[i][j]==-1)
+        {
+            return 0;
+        }
+        if(i/10+i%10+j/10+j%10>k)
+        {
+            vec[i][j]=-1;
+            return 0;
+        }
+        
+        else{
+            vec[i][j]=-1;
+            sum += myfunc(vec,m,n,k,i+1,j);
+            sum += myfunc(vec,m,n,k,i,j+1);
+        return 1;
+        }
+        
+    }
+
+public:
+    int movingCount(int m, int n, int k) {
+        ////模拟题意 发现设行号为i 该行号对应的数值大小是：i/10 + i%10   因为题意 所以特殊考虑100处
+        //并且可以知道 肯定需要遍历每个地方 所以考虑两层遍历
+
+        vector<vector<int>> vec(m, vector<int>(n, 0));//初始化一个m行n列的元素值全为0的二维数组
+
+        sum=1;//记录能到的格子数
+  
+        myfunc(vec,m,n,k,0,0);
+        return sum;
+    }
+};
