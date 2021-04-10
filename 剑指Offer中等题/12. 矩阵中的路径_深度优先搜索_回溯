@@ -1,0 +1,43 @@
+class Solution {
+public:
+    bool exist(vector<vector<char>>& board, string word) {
+        lenh=board.size();//行数
+        lenl=board[0].size();//列数
+
+        for(int i=0;i<lenh;++i)
+        {
+            for(int j=0;j<lenl;++j)
+            {
+                //遍历输入矩阵中的每个起点
+                //如果返回true就返回true 否则继续运行
+                if(myexist(board,word,i,j,0))   return true;
+            }
+        }
+        return false;
+    }
+
+private:
+    int lenh,lenl;     ////默认为0了 ，所以需要在public中赋值 但是不能在public中 重新定义int
+    //定义一个函数 输入矩阵word 矩阵索引 word索引 返回bool类型 用于迭代
+    bool myexist(vector<vector<char>>& board, string word,int i,int j,int k)
+    {
+        //如果一旦不满足条件就返回false 超出界限，当前数不相等
+        if(i<0 || i>lenh-1 ||j<0 || j>lenl-1 ||board[i][j]!=word[k] )
+        {
+            return false;
+        }
+
+        //找到的条件
+        if(k==word.size()-1) return true;
+
+        //如果在之前的条件下 满足相等 就标记
+        board[i][j]='\0';
+        
+        //开始深度优先搜索
+        bool res= (myexist(board,word,i+1,j,k+1) || myexist(board,word,i-1,j,k+1) || myexist(board,word,i,j+1,k+1) || myexist(board,word,i,j-1,k+1));
+
+        //开始回溯
+        board[i][j]=word[k];
+        return res;
+    } 
+};
