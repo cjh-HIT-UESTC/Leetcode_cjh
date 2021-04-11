@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int cuttingRope(int n) {
+        long num=1;
+        if(n<=3)    return n-1;
+        while(n>=3)
+        {
+            n-=3;
+            num =(num%1000000007*3);      //**********在这里取模要在乘3之前取 否则可能会导致错误（一个大的的数（但没超过），乘3可能绕了两圈，所以先取模，就能保住只绕一圈）
+            if(n==1)    return num*4/3%1000000007;            //有3分3   无3再讨论
+            if(n==0)    return num%1000000007;
+        }
+        return num*2%1000000007;
+        
+
+    }
+};
