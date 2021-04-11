@@ -1,0 +1,33 @@
+class Solution {
+public:
+    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+        ////如果不是要求更改nums1 而不能新开空间 明显可以利用栈来存放数据
+
+        //但不开辟新空间也一样 利用这种思想 从大的开始比 大的就依次放到nums1后面去（在向前递进）
+
+        int i=m-1;//指向nums1的最后
+        int j=n-1;//指向nums2的最后
+        int p=m+n-1;//指向最后要输出的nums1的最后面
+        int res=0;//用来存放每次的数据
+        while(i>=0||j>=0)
+        {
+            if(i==-1)
+            {
+                res=nums2[j--];
+            }
+            else if(j==-1)
+            {
+                res=nums1[i--];
+            }
+            else if(nums1[i]<=nums2[j])
+            {
+                res=nums2[j--];
+            }
+            else
+            {
+                res=nums1[i--];
+            }
+            nums1[p--]=res;
+        }
+    }
+};
