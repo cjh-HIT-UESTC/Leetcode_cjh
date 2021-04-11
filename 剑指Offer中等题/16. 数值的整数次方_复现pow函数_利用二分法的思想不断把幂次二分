@@ -1,0 +1,52 @@
+class Solution {
+public:
+    double myPow(double x, int n) {
+        //输入是double类型
+        /*
+        double ret=1.0;
+        if(n>=0)
+        {
+            while(n>0)
+            {
+                ret *=x;
+                n--;
+            }
+            return ret;
+        }
+        else
+        {
+            while(n<0)
+            {
+                ret /=x;
+                n++;
+            }
+            return ret;
+        }
+        */
+        //以上能解决 但是没有考虑大数问题且超出了时间限制
+        //因为要不断的乘自己 所以考虑迭代
+        /*
+        if(n==0)    return 1.0;
+        if(n==-2)    return 1/(x*x);
+        if(n==2)    return x*x;
+        if(n%2==0)  
+        {
+            return myPow(myPow(x,n/2),2);
+        }
+        else if(n>0)
+        {
+            return x*myPow(myPow(x,n/2),2);
+        }
+        else 
+        {
+            return (1/x)*myPow(myPow(x,n/2),2);
+        }
+        */
+        //以上能完成 但是不够整洁 看看别人怎么做的：
+        if(n==0) return 1;
+        if(n==-1) return 1/x;
+        if(n&1) return myPow(x*x,n>>1)*x; //   n&1 正确就为奇数      是用来判断是否为奇数！！！！！这样写也许会更快
+        else return  myPow(x*x,n>>1);
+
+    }
+};
