@@ -1,0 +1,55 @@
+/*
+class MinStack {
+private:
+    stack<int>stack1;
+    stack<int>stack2;
+
+public:
+    // initialize your data structure here. 
+    MinStack() {
+
+    }
+    
+    void push(int x) {
+        if(stack1.size()==0)
+        {
+            stack1.push(x);
+            stack2.push(x);
+        }
+        else if(stack2.top()>=x)
+        {   
+            stack1.push(x);
+            stack2.push(x);
+        }
+        else
+        {
+            stack1.push(x);
+        } 
+    }
+    
+    void pop() {
+        if(stack1.top()==stack2.top())
+        {
+            stack1.pop();
+            stack2.pop();
+        }
+        else
+        {
+            stack1.pop();
+        }
+    }
+    
+    int top() {
+        return stack1.top();
+    }
+    
+    int min() {
+        return stack2.top();
+    }
+};
+*/
+
+
+                                        //以上能实现。是用的辅助双栈实现的：  思想：从头开始，栈A正常放数，只要第二个数比之前的数小，就放进栈B中（最开始第一个都放进栈A和B中）
+                                        //这样 如果当前数比之前数大 就不放进栈B 所以栈B的头永远代表栈A的最小元素 并其内部是最小的那些数的排列   因为只要不pop完比 第一个数大的数 那么最小数就永远最大是第一个数
+                                        ////这就是为什么 要加一个比当前数小的 才放进栈B的原因
