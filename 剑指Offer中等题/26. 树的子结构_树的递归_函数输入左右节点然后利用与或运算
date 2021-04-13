@@ -1,0 +1,48 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool ret=false;
+    bool isSubStructure(TreeNode* A, TreeNode* B) {
+        ////在脑袋中 模拟了一下后 认为 首先要用双指针 然后因为要不断的比下去 所以要递归（我调我自己）或者迭代
+        
+        //那么 首先考虑递归 先要分析函数：输入A的头指针 B的头指针 判断整个树是否相同  那么我可以写一个函数 只判断当前节点是否相同
+
+        //用指针遍历树A
+       
+       //过了一天 我再想的时候 觉得可以不用新写一个函数 直接自己调用自己就行 结束条件就是A与B的值相同 且B下一个指针指向空
+        
+        //先说明空树
+        if(B==nullptr||A==nullptr)   return false;
+
+        //开始判断
+        if(A->val == B->val && B->left==nullptr && B->right==nullptr   )    //如果B节点没有子节点了 且当前节点相同
+        {
+            return true;
+        }
+        else if(A->val == B->val && B->right==nullptr && A->left!=nullptr && B->left->val ==A->left->val )  //如果B没有右节点  且A有左节点 并且A和B的当前节点和左节点值相同
+        {
+            ret = isSubStructure(A->left,B->left);     //就进一步找A和B的左节点
+        }
+        else if(A->val == B->val && B->left==nullptr  && A->right!=nullptr && B->right->val ==A->right->val)  //如果B没有左节点  且A有右节点 并且A和B的当前节点和右节点值相同
+        {
+            ret = isSubStructure(A->right,B->right);     //就进一步找A和B的右节点
+        }
+        else if(A->val == B->val && B->left!=nullptr && B->right!=nullptr && A->left!=nullptr  && A->right!=nullptr  && B->right->val ==A->right->val &&B->left->val == A->left->val)  //如果B有左右节点  且A有左右节点 并且A和B的三个节点值相同
+        {
+            ret=(isSubStructure(A->right,B->right) && isSubStructure(A->left,B->left));     //就进一步找A和B的左节点和右节点  并且左右节点都要为true才判true
+        }
+        else  // 不匹配的情况
+        {
+            ret=(isSubStructure(A->right,B) || isSubStructure(A->left,B));  //输入A的下一个左右节点 并且B从头开始  需要注意这里的B还是只指向B的头节点（B往后指只会发生在递归内部 一旦判错就会自动初始化到头部）
+        }
+        return ret;
+    }
+};
