@@ -1,0 +1,51 @@
+ */
+                                        //以下尝试使用指针的模式来实现
+
+
+
+class MinStack {
+public:
+    struct Node
+    {
+        public:
+            int val;
+            Node* next;
+            int min;
+        public:
+            Node(){}
+            Node(int x,Node* p,int min)////**************************这种定义方式 重要******************************能实现当前指针**被**下一个指针所指向
+            {
+                this->val=x;
+                this->next=p;
+                this->min=min;
+            }
+    };
+    Node* p=nullptr;
+  
+    MinStack() {
+
+    }
+    
+    void push(int x) {
+        if(p==nullptr)
+        {
+            p=new Node(x,p,x);
+        }
+        else
+        {
+            p=new Node(x,p,(p->min)<=x?(p->min):x);////实现下一个元素指向上一个元素
+        }
+    }
+    
+    void pop() {       
+            p=p->next; 
+    }
+    
+    int top() {  
+            return p->val;
+    }
+    
+    int min() {   
+            return p->min;
+    }
+};
