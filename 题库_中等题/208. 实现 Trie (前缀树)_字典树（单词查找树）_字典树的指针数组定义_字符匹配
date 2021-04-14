@@ -1,0 +1,59 @@
+class Trie {
+    //定义这个树里包含的数据
+private:
+    bool isEnd;//布尔类型 是否是字的结尾
+    Trie* next[26];//指向tric的指针数组 这个指针数组包含2266个，代表26个英文字母，这里是一个技巧！！！
+
+public:
+    /** Initialize your data structure here. */
+    Trie() {
+        isEnd=false;//空的树 所以不是字的结尾
+        memset(next,0,sizeof(next));//把指针数组初始化 全为0  使用memset
+    }
+    
+    /** Inserts a word into the trie. */
+    void insert(string word) {
+        Trie* node = this;  //定义一个Trie类型的指针 这个指针指向自己
+        for(char ch:word)
+        {
+            if(node->next[ch-'a'] == NULL)    //如果当前节点上没有这个字符 就开辟一个新的节点
+            {
+                node->next[ch-'a']= new Trie();//开辟新的节点
+            }
+            node=node->next[ch-'a'];  //当前节点字符是对的 就找下一个节点
+        }
+        node->isEnd=true;//把最后位置的标记最后一位为true
+    }
+    
+    /** Returns if the word is in the trie. */
+    bool search(string word) {
+        Trie* node =this;////设定一个指向自己的指针 现在指向的是最前面字符的前面
+        for(char ch:word)
+        {
+            node=node->next[ch-'a'];//把指针指向下一个字符  如果有的话就指向正确 否则就会指向空
+            if(node==NULL)  return false;
+        }
+        //全部找完了  就返回是否是结尾  不是结尾处 isEnd就是false
+        return node->isEnd;
+    }
+    
+    /** Returns if there is any word in the trie that starts with the given prefix. */
+    bool startsWith(string prefix) {
+        Trie* node=this;
+        for(char ch:prefix)
+        {
+            node=node->next[ch-'a'];
+            if(node==NULL)  return false;
+        }
+        //代表全部找完了 说明肯定是有这么一部分存在的 所以直接true
+        return true;
+    }
+};
+
+/**
+ * Your Trie object will be instantiated and called as such:
+ * Trie* obj = new Trie();
+ * obj->insert(word);
+ * bool param_2 = obj->search(word);
+ * bool param_3 = obj->startsWith(prefix);
+ */
