@@ -1,0 +1,35 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+private:
+    vector<int>ret;
+    queue<TreeNode*>q;     //定义一个队列  里面的数据类型是指向TreeNode的指针
+
+public:
+    vector<int> levelOrder(TreeNode* root) {
+        //BFS 通常借助 队列 的先入先出特性来实现
+        if(!root)   return ret;
+        q.push(root);
+        while(!q.empty())
+        {
+            if(q.front()->left)
+            {
+                q.push(q.front()->left);
+            }
+            if(q.front()->right)
+            {
+                q.push(q.front()->right);
+            }
+            ret.push_back(q.front()->val);
+            q.pop();
+        }
+        return ret;
+    }
+};
