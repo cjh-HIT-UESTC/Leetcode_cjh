@@ -1,0 +1,80 @@
+/*
+class Solution {
+private:
+    //因为要在pushed中查找 所以考虑使用哈希表加速查找      并且要定义为private
+        unordered_map<int,int>index;                          //定义一个哈希表
+        int left;
+
+
+public:
+    bool validateStackSequences(vector<int>& pushed, vector<int>& popped) {
+        //根据脑海模拟 即使第二个容器里的第二个元素不能在第一个元素前两个位置前出现
+        
+        //首先大小必须一样
+        if(pushed.size()!=popped.size())    return false;
+        //都为空
+        if(pushed.size()==0)    return true;
+        //只有一个元素
+        if(pushed.size()==1&&pushed[0]==popped[0])  return true;
+        else if(pushed.size()==1&&pushed[0]!=popped[0]) return false;
+
+        //往哈希表里存放数据  键是它的数 值是它的位置索引
+        for(int i=0;i<pushed.size();++i)     //注意是size不是size-1
+        {
+            index[pushed[i]]=i;               //往哈希表里存放数据
+        }
+
+        left=index[popped[0]]-1;//记录当前左边界
+        pushed[index[popped[0]]]=-1;            //更改以前数组的值 作为标记
+
+        //开始遍历popped 直到遍历结束 或者找到的不满足条件 或不相等 
+        for(int i=1;i<popped.size();++i)
+        {
+            //根据提示3  我们就先认为它的大小一样 元素全部相等（只有出现过的）
+            //对于哈希表 如果查找表内没有的元素 会返回0
+            if(index[popped[i]] >=left  )
+            { 
+                    //更新左边界
+                    left=index[popped[i]]-1;
+                    pushed[index[popped[i]]]=-1;
+                    int j=index[popped[i]];
+                while(j>0 && pushed[j-1] ==-1  )          //不断更新左边界
+                {
+                    left--;
+                    j--;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return true;
+        
+        
+    }
+};
+*/
+//                                          以上算法能实现 其核心思想是：不断更新左边界  模拟真实的过程 但是效率很低   下面采用辅助栈的方法
+
+class Solution {
+private:
+    stack<int>s;       //建立一个栈
+    int i=0;         //指向数组中的元素
+
+
+public:
+    bool validateStackSequences(vector<int>& pushed, vector<int>& popped) {
+        for(int num:pushed)
+        {
+            s.push(num); 
+            while(!s.empty() && s.top()==popped[i] )      //模拟栈的过程
+            {
+                s.pop();
+                i++;
+            }
+        }
+        return s.empty();
+
+    }
+};
