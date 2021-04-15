@@ -1,0 +1,25 @@
+class Solution {
+private:
+    bool func(vector<int>v,int start,int end)
+    {
+        if(start>=end)  return true;    //如果为单节点 就正确
+        int i=start;                        //因为每次的起始位置会变 所以从起始位置开始
+        while(i<=end && v[i]<v[end])        //判断左子树的末尾
+        {
+            i++;
+        }
+        int leftend=i-1;               //记录下左子树的末尾  便于后续输入
+        while(i<=end)
+        {
+            if(v[i]<v[end]) return false;       ////判定右子树  一旦右子树中有不满足条件的 判错
+            i++;
+        }
+        return func(v,start,leftend)&&func(v,leftend+1,end-1);  ////递归调用 左子树 右子树 的起始位置会改变
+    }
+    
+public:
+    bool verifyPostorder(vector<int>& postorder) {
+        return func(postorder,0,postorder.size()-1);//调用递归函数  该函数的模式是：输入的数组 起始位置 结尾位置
+    }
+};
+
