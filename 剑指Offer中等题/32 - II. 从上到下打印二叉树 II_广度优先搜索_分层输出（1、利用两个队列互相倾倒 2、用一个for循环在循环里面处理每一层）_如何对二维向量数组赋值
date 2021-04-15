@@ -1,0 +1,73 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+private:
+    queue<TreeNode*>q; //定义一个存放指针的队列
+    vector<vector<int>>ret;
+    queue<TreeNode*>q1;
+    
+
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        ////输入为二叉树 输出为二维数组
+        //因为要对二维数组进行赋值 那么必然得知道每一层的个数 在知道个数的情况下才能进行赋值 并且还得知道在哪一层
+        //// 广度搜索  用队列辅助
+        if(!root)   return ret;
+ /*          
+        q1.push(root);
+                           //这是利用了两个栈反复调用实现的记录每层   可以更简单化 用for循环
+        while(!q1.empty())
+        {
+            vector<int> v;
+            while(!q1.empty())
+            {
+                v.push_back(q1.front()->val);
+                q.push(q1.front());
+                q1.pop();
+            }
+            ret.push_back(v);
+            while(!q.empty())
+            {
+                if(q.front()->left)
+                {
+                    q1.push(q.front()->left);
+                }
+                if(q.front()->right)
+                {
+                    q1.push(q.front()->right);
+                }
+                q.pop();
+            }
+        }
+        return ret;
+ */       
+        q.push(root);
+
+        while(!q.empty())
+        {
+            vector<int>v;
+            for(int i=q.size();i>0;--i)
+            {
+                v.push_back(q.front()->val);
+                if(q.front()->left)
+                {
+                    q.push(q.front()->left);
+                }
+                if(q.front()->right)
+                {
+                    q.push(q.front()->right);
+                }
+                q.pop();
+            }
+            ret.push_back(v);
+        }
+        return ret;
+    }
+};
