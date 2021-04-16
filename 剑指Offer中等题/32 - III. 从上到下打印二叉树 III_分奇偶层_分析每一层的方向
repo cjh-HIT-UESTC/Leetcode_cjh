@@ -1,0 +1,64 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+private:
+    vector<vector<int>>ret; //存放最终结果
+    deque<TreeNode*>q;  //定义一个队列来辅助存放每一层
+    int j=0;    //奇偶层标记 0奇数层
+
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        if(!root)   return ret; //为空 就反空
+
+        q.push_back(root);  ////放根节点
+
+        while(!q.empty())
+        {
+            vector<int>v;   ////辅助一维数组
+            if(j==0)
+            {
+                for(int i=q.size();i>0;--i)
+                {
+                    v.push_back(q.front()->val);
+                    if(q.front()->left)
+                    {
+                        q.push_back(q.front()->left);
+                    }
+                    if(q.front()->right)
+                    {
+                        q.push_back(q.front()->right);
+                    }
+                    q.pop_front();
+                }   
+                j=1;
+            }
+            else
+            {
+                for(int i=q.size();i>0;--i)
+                {
+                    v.push_back(q.back()->val);
+                    if(q.back()->right)
+                    {
+                        q.push_front(q.back()->right);
+                    }
+                    if(q.back()->left)
+                    {
+                        q.push_front(q.back()->left);
+                    }
+                    q.pop_back();
+                }
+                j=0;
+            }
+            ret.push_back(v);
+        }
+        return ret;
+
+    }
+};
