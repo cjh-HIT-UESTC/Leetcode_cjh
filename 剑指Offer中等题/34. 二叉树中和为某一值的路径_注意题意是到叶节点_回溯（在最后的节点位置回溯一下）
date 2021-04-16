@@ -1,0 +1,50 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+private:
+    vector<vector<int>>ret;
+    vector<int>v;
+public:
+  void func(TreeNode* root,int target,vector<int>v)
+    {
+        //如果为空节点了 就不再继续了
+        if(!root)   return;
+
+        //每次都要记录当前走过的点
+        v.push_back(root->val);
+
+        //计算当前是否满足要求    并更新目标值
+        target -= root->val;
+
+        //如果满足要求了（且是叶节点） 就把记录的路径赋值给最终的答案路径
+        if(target==0 && !root->left && !root->right)
+        {
+            ret.push_back(v);
+        }
+
+        //接下来就 是 不为叶节点  就要一直走下去,但此时目标值 已经走过的路径都被记录下来了
+        func(root->left,target,v);
+        func(root->right,target,v);
+
+        //如果现在是叶节点 但是不满足目标值 就要把当前记录的路径pop一个出去（实现了回溯）
+        v.pop_back();                //这里的回溯是和上面的 左节点和右节点的递归相互配合的：              *******************回溯核心！！！*******************
+                                //如果左节点是叶节点且不满足要求 就回溯到根节点 再进入 右节点 右节点不满足 就回溯到 根节点 并说明无路径                   
+    }
+    
+    vector<vector<int>> pathSum(TreeNode* root, int target) {
+        //根据实验 发现是深搜 对于 5 4 0 0 输入9 输出 5 4 0 0 而不是三个: 5 4 0 和 5 4 0 0 和 5 4  所以就是搜索到最后
+        //而且必须到叶子节点！！！！
+
+        func(root,target,v);
+        return ret;
+    }
+};
