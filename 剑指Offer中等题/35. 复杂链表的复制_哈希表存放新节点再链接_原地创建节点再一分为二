@@ -1,0 +1,94 @@
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* next;
+    Node* random;
+    
+    Node(int _val) {
+        val = _val;
+        next = NULL;
+        random = NULL;
+    }
+};
+*/
+            //用哈希表做
+            //核心思想就是：利用哈希表来存放每个节点对应创造的一个新的节点 这个新的节点里面的val是对应节点的val 但是不指向任何地方
+            //然后 哈希表做好之后 就再从头开始 把这些新的节点连接起来 最后输出即可
+/*
+class Solution {
+public:
+    Node* copyRandomList(Node* head) {
+        //特殊情况：输入为空指针
+        if(!head)   return nullptr;
+
+        //先用一个哈希表记录每个节点的 指针信息
+        unordered_map<Node*,Node*>map;
+
+        //创建一个新的指针用来遍历这个链表
+        Node* p=head;
+
+        //开始遍历 存放哈希表 形成节点到复制节点的映射 这个复制节点就只是一个新的节点 不指向任何地方 里面的数据是原来的数据
+        while(p)
+        {
+            map[p]=new Node(p->val);
+            p=p->next;
+        }
+
+        //现在开始链接每个新的复制节点 所以要新创建一个指针指向head
+        Node* p1=map[head];
+
+        //开始链接
+        while(head)
+        {
+            map[head]->next=map[head->next];
+            map[head]->random=map[head->random];
+            head=head->next;
+        }
+        return p1;
+    }
+};
+*/
+
+            //下面使用 在每个节点之后创造一个新的节点 然后再一分为二 
+class Solution {
+public:
+    Node* copyRandomList(Node* head) {
+        //特殊情况：输入为空指针
+        if(!head)   return nullptr;
+
+        //建立一个新的节点指向head （便于之后还能找到链表头）
+        Node* p=head;
+
+        //开始遍历链表 在每个节点后复制一个新的节点
+        while(p)
+        {
+            Node* pnew=new Node(p->val);
+            pnew->next=p->next;
+            p->next=pnew;
+            p=p->next->next;
+        }
+
+        p=head;
+        while(p ) {
+            if(p->random != nullptr)
+                p->next->random = p->random->next;
+            p = p->next->next;
+        }
+        
+        //创建好新的两倍链表之后 开始一分为二
+        p=head->next;
+        Node* pre = head, *res = p;
+        while(p->next ) {
+            pre->next = pre->next->next;
+            p->next = p->next->next;
+            pre = pre->next;
+            p = p->next;
+        }
+        pre->next = nullptr; // 单独处理原链表尾节点
+        return res;      // 返回新链表头节点
+    }
+};
+
+
