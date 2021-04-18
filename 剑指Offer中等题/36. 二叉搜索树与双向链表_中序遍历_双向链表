@@ -1,0 +1,73 @@
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* left;
+    Node* right;
+
+    Node() {}
+
+    Node(int _val) {
+        val = _val;
+        left = NULL;
+        right = NULL;
+    }
+
+    Node(int _val, Node* _left, Node* _right) {
+        val = _val;
+        left = _left;
+        right = _right;
+    }
+};
+*/
+class Solution {
+private:
+    Node* head=NULL;    //头节点
+    Node* pre=NULL;     //当前节点的前一节点
+
+    //因为只改变指向 不需要返回值 直接改变链表结构
+    void    myfunc(Node* root)
+    {
+        //如果递归到了空指针 直接返回
+        if(!root)   return;
+
+        //先遍历左边
+        myfunc(root->left);
+
+        //因为前一个指针只有在最左边的时候才为空 所以可以利用它来记录 头指针
+        if(!pre)
+        {
+            head=root;
+        }
+        else
+        {
+            //前一个指针的右指针要指向当前指针
+            pre->right=root;
+        }
+
+        //当前节点的左指针要指向前一个指针
+        root->left=pre;
+        //当前指针就为前一个指针
+        pre=root;
+
+        //再遍历右边
+        myfunc(root->right);
+    }
+
+public:
+    Node* treeToDoublyList(Node* root) {
+        //点应从小到大排序，因此应使用 中序遍历 “从小到大”访问树的节点。
+
+        //特殊情况
+        if(!root)   return root;
+        
+        //开始递归
+        myfunc(root);
+
+        //到最后pre指向尾巴 head左边指向空 要改回去
+        head->left=pre;
+        pre->right=head;
+        return head;
+    }
+};
