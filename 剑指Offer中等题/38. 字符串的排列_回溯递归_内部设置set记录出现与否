@@ -1,0 +1,44 @@
+class Solution {
+private:
+    vector<string>res;  //定义存放结果
+    void myfunc(string s,int x) //递归函数 无输出 输入当前的字符串样式 和 第几位开始
+    {
+        //一旦是最后一位
+        if(x==s.size()-1)   
+        {
+            res.push_back(s);
+            return;
+        }
+
+        //定义一个set（不能重复）来存放当前已经有的字符
+        set<char>cjh;
+
+        //从当前位数往后开始排列
+        for(int i=x;i<s.size();++i)
+        {
+            //如果set里面有的话就跳过
+            if(cjh.find(s[i]) != cjh.end())  
+            {
+                continue;
+            }
+
+            //放进set
+            cjh.insert(s[i]);
+
+            //没有的话就说明行  就把这个字符和 x位置的字符换位 再比较下去 依次看后面的行不行
+            swap(s[i],s[x]);
+
+            //现在是换完的 拿着去做下一个位置的递归
+            myfunc(s,x+1);
+
+            //前面交换之后 为了下一次交换保证原来的字符串不变 还要恢复成原来的字符串
+            swap(s[i],s[x]);
+        }
+    }
+
+public:
+    vector<string> permutation(string s) {
+        myfunc(s,0);
+        return res;
+    }
+};
