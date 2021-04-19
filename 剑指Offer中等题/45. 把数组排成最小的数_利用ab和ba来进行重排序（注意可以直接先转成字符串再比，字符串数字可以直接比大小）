@@ -1,0 +1,57 @@
+class Solution {
+private:
+    void myfunc(vector<int>& nums,int i,int j)
+    {
+        //计算第i个数的位数
+        int leni=0;
+        int numi=nums[i];
+        if(numi==0) leni=1;
+        while(numi)
+        {
+            numi/=10;
+            ++leni;
+        }
+
+        //计算第j个数的位数
+        int lenj=0;
+        int numj=nums[j];
+        if(numj==0) lenj=1;
+        while(numj)
+        {
+            numj/=10;
+            ++lenj;
+        }
+
+        //比较组合的数字 要用long来保存
+        long numij= nums[i]*pow(10,lenj)+nums[j]; //i在前
+        long numji= nums[j]*pow(10,leni)+nums[i]; //j在前
+        if(numij<numji)
+        {
+            //不变
+        }
+        else
+        {
+            int cjh=nums[i];
+            nums[i]=nums[j];
+            nums[j]=cjh;
+        }
+    }
+public:
+    string minNumber(vector<int>& nums) {
+        //实际上就是排序 然后输出 所以可以考虑：ab和ba谁小就是谁： 210 和102
+        //所以需要写一个函数 这个函数不返回任何值 但是会改变当前的数组
+        for(int i=0;i<nums.size()-1;++i)
+        {
+            for(int j=i+1;j<nums.size();++j)
+            {
+                myfunc(nums,i,j);
+            }
+        }
+        string res="";
+        for(int i=0;i<nums.size();++i)
+        {
+            res+=to_string(nums[i]);
+        }
+        return res;
+    }
+};
