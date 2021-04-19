@@ -1,0 +1,66 @@
+/*              //以下考虑错了 但是写了一个利用队列取斐波那契数的代码 有参考价值
+class Solution {
+public:
+    int translateNum(int num) {
+        //含有前导0的数不合法
+        //所以先基数为1，先判断是否为0，再判断是否为1（后面为任意），再判断是否为2（后面只能0到5）
+        int num1=0; //表示有多少个2位数可以
+        
+        string s=to_string(num);
+        for(int i=0;i<s.size()-1;++i)
+        {
+            if(s[i]=='1')   ++num1;
+
+            if(s[i]=='2')
+            {
+                if(s[i+1]-'0'>=0 && s[i+1]-'0'<6)   ++num1;
+            }
+        }
+        //现在就是表示这个两位数翻不翻译    需要注意全部不翻的情况已经考虑了    所以就是一个斐波那契数列
+        if(num1<3)  return  num1+1;
+        queue<int>q;
+        q.push(2);
+        q.push(3);
+        while(num1-2)
+        {
+            int top=q.front();
+            q.pop();
+            q.push(top+q.front());
+            --num1;
+        }
+        q.pop();
+        return q.front();
+    }
+};
+*/
+class Solution {
+public:
+    int translateNum(int num) {
+        //可以看作青蛙跳台问题  但不同的是 遇到1或者2才有机会跳两步 否则只能跳一步  递归 每个位置的值 由之前的值来贡献 也可以考虑递归 用取余和除来操作最后两位
+        if(num<10)  return  1;
+        vector<int>nums;
+        string s=to_string(num);
+        for(int i=0;i<s.size();++i)
+        {
+            if(i==0)    nums.push_back(1);
+            else if(i==1)
+            {
+                if((s[0]=='1')||(s[0]=='2'&&s[i]-'0'>=0&&s[i]-'0'<6))   nums.push_back(2);
+                else    nums.push_back(1);
+            }    
+            else
+            {
+                if((s[i-1]=='1')||(s[i-1]=='2'&&s[i]-'0'>=0&&s[i]-'0'<6))
+                {
+                    nums.push_back(nums[i-1]+nums[i-2]);
+                }
+                else
+                {
+                    nums.push_back(nums[i-1]);
+                }
+            }
+        }
+        return nums[s.size()-1];
+
+    }
+};
