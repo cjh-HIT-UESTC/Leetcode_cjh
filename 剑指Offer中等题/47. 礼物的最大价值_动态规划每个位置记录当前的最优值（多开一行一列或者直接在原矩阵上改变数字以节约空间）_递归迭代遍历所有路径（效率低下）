@@ -1,0 +1,57 @@
+/*
+class Solution {
+private:
+    priority_queue<int> big_heap;
+public:
+    void myfunc(vector<vector<int>>& grid,int i,int j,int sum )
+    {
+        if(i==grid.size()-1&&j==grid[0].size()-1)   //右下角
+        {
+            big_heap.push(sum+grid[i][j]);
+            return;
+        }
+        else if(j==grid[0].size()-1)    //等于列数
+        {
+            myfunc(grid,i+1,j,sum+grid[i][j]);
+        }
+        else if(i==grid.size()-1)     //等于行数
+        {
+            myfunc(grid,i,j+1,sum+grid[i][j]);
+        }
+        else
+        {
+            myfunc(grid,i+1,j,sum+grid[i][j]);
+            myfunc(grid,i,j+1,sum+grid[i][j]);
+        }
+    }
+public:
+    int maxValue(vector<vector<int>>& grid) {
+        //我想到的 是先用递归迭代去找每一条路径 计算出值 然后用一个最大堆去维护
+        myfunc(grid,0,0,0);
+        return big_heap.top();
+    }
+};
+*/
+//以上能够实现功能  但由于要遍历每条路径 并且用大根堆维护 所以效率很慢 超出了时间限制
+//下面使用动态规划
+
+class Solution {
+
+public:
+    int maxValue(vector<vector<int>>& grid) {
+        //动态规划：每个位置的值由之前位置的值贡献 所以在本题中 可以先把矩阵左边界和上边界往外扩展一层 并全赋值为0 这样就能保证矩阵内的元素由之前的元素贡献来
+        //核心：某单元格只可能从上边单元格或左边单元格到达
+        //初始化一个扩展后的二维向量
+        vector<vector<int>>dp(grid.size()+1,vector<int>(grid[0].size()+1,0));
+
+        for(int i=0;i<grid.size();++i)
+        {
+            for(int j=0;j<grid[0].size();++j)
+            {
+                dp[i+1][j+1]=grid[i][j]+max(dp[i+1][j],dp[i][j+1]);
+            }
+        }
+        return dp[grid.size()][grid[0].size()];
+
+    }
+};
