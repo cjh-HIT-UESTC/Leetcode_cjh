@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int missingNumber(vector<int>& nums) {
+        //显然可以一个一个比 但效率很慢 显然可以二分查找
+        int max=nums.size();
+        int left=0;
+        int right=max-1;
+        
+        while(right>=left)
+        {
+            int mid=left+(right-left)/2;
+            if(nums[mid]>mid )
+            {
+                right=mid-1;
+            }
+            else
+            {
+                left=mid+1;
+            }
+        }
+        return left;
+    }
+};
