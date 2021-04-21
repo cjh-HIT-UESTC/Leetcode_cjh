@@ -1,0 +1,45 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+private:
+    priority_queue<int,vector<int>,greater<int>>q;
+    int n;
+
+public:
+    int kthLargest(TreeNode* root, int k) {
+        //首先 能确定的是必定要遍历完全部树节点 然后就需要考虑怎么维护前k个大的节点 于是想到先选前k个值 然后用一个最小堆维护（堆里个数一定）
+        //前序遍历即可
+        n=k;         //如何把一个局部变量的值变成一个全局变量
+        myfunc(root);
+        return q.top();
+    }
+    void myfunc(TreeNode* root)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        if(n!=0)
+        {
+            q.push(root->val);
+            n--;
+        }
+        else
+        {
+            if(root->val>q.top())
+            {
+                q.pop();
+                q.push(root->val);
+            }
+        }
+        myfunc(root->left);
+        myfunc(root->right);
+    }
+};
