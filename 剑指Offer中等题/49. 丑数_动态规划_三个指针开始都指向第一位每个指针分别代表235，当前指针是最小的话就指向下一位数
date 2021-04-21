@@ -1,0 +1,22 @@
+class Solution {
+private:
+    int a=0,b=0,c=0;
+    
+public:
+    int nthUglyNumber(int n) {
+        //基数为2,3,5 然后不断的乘 最小的数为下一个
+        //利用三指针 先全部指向1，每个指针都有自己固定的乘法基数(2,3,5) 然后取三个中最小的
+       // if(n==1)    return res;
+        int dp[n];
+        dp[0]=1;
+        for(int i=0;i<n-1;++i)
+        {
+            int res=min(2*dp[a],min(3*dp[b],5*dp[c]));
+            dp[i+1]=res;
+            if(2*dp[a]==res)    ++a;
+            if(3*dp[b]==res)    ++b;
+            if(5*dp[c]==res)    ++c;
+        }
+        return dp[n-1];
+    }
+};
