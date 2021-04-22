@@ -1,0 +1,37 @@
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int myfunc(TreeNode* root)
+    {
+        if(root==NULL)  return 0; //深度为0
+
+        int left=myfunc(root->left); //左子树的深度
+        if(left==-1)    return -1;  //检查一旦为-1 就不断的返回-1直到出去
+
+        int right=myfunc(root->right);  //右子树的深度
+        if(right==-1)    return -1;  //检查一旦为-1 就不断的返回-1直到出去
+
+        if(abs(left-right)>1)   return-1;   //-1表失败
+        else    
+        {
+            return max(left,right)+1;     //本树的深度为左右子树最大+1      核心！！！！！！
+        }
+       }
+
+public:
+    bool isBalanced(TreeNode* root) {
+        //分析需求：用一个值维护最大值 一旦有一个深度比它小两个数 就false 否则更新mx继续直到结束
+        //输入：当前节点，当前深度
+        if(root==NULL)  return 1;
+        return  myfunc(root)==-1?false:true;
+    }
+};
