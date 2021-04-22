@@ -1,0 +1,32 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+private:    
+    int max=0;
+public:
+    void myfunc(TreeNode* root,int dep)
+    {
+        if(root==NULL)
+        {
+            max=max>(dep-1)?max:(dep-1);
+            return;
+        }
+        myfunc(root->left,dep+1);
+        myfunc(root->right,dep+1);
+    }
+
+public:
+    int maxDepth(TreeNode* root) {
+        //分析需求：输入当前节点和现在的深度 如果为空 返回空 更新最大值 否则继续向下
+        if(root==NULL)  return 0;
+        myfunc(root,1);
+        return max;
+    }
+};
