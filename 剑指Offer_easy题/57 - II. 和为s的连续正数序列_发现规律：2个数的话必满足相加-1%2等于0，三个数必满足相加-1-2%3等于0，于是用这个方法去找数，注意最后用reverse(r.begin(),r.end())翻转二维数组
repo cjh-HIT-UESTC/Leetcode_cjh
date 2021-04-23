@@ -1,0 +1,24 @@
+class Solution {
+public:
+    vector<vector<int>> findContinuousSequence(int target) {
+        vector<vector<int>>res;
+        int i=1;
+        int j=2;
+        while((target-i)/j>0 )
+        {
+            if((target-i)%j==0)
+            {
+                vector<int>a;
+                for(int ii=0;ii<j;++ii)
+                {
+                    a.push_back((target-i)/j+ii);
+                }
+                res.push_back(a);
+            }
+            i+=j;
+            ++j;
+        }
+        reverse(res.begin(),res.end());
+        return res;
+    }
+};
