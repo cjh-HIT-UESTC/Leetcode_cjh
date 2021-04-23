@@ -1,0 +1,33 @@
+class Solution {
+public:
+    vector<int> singleNumbers(vector<int>& nums) {
+        //对于数字有这样一个事实：自己与全0异或是其本身   自己与自己异或是全0
+        //所以本题可以想到 全部数字对0异或的结果 与a与b异或的结果相同（两两抵消）
+        //而对于其结果而言 选结果为1的地方 相同的数字肯定相同 a和b能够被分出 这样就得到了两组数字 再在两组数字里面异或
+        int a=0;
+        for(int num:nums)
+        {
+            a^=num;
+        }
+        int b=1;
+        while((b&a)==0)
+        {
+            b<<=1;   //即是： b=b<<1;
+        }
+        //找到了为1的那一位
+        //分成两组  异或
+        int res1=0,res2=0;
+        for(int num:nums)
+        {
+            if(num&b)       //这里要就这样写  而不能写成num&b==1?    因为它的值为0或者其他（不一定为1）
+            {
+                res1^=num;
+            }
+            else
+            {
+                res2^=num;
+            }
+        }
+        return vector<int>{res1,res2};      //注意这里的vector直接赋值（用中括号初始化）   
+    }
+};
