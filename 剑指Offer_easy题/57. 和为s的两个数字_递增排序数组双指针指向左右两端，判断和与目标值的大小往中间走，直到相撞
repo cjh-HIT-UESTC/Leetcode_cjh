@@ -1,0 +1,25 @@
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        //注意本题 为递增排序数组
+        //设置两个指针 指向两头 计算指向的数据的和 大于目标就移动右指针往小的地方走 否则就左指针往大的地方走    如果相撞就返回空
+        int i=0;
+        int j=nums.size()-1;
+        while(j>i)
+        {
+            if(nums[i]+nums[j]>target)
+            {
+                --j;
+            }
+            else if(nums[i]+nums[j]<target)
+            {
+                ++i;
+            }
+            else
+            {
+                return vector<int>{nums[i],nums[j]};
+            }
+        }
+        return {};
+    }
+};
