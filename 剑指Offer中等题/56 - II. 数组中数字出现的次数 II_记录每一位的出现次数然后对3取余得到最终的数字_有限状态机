@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        //对于数字 异或自己为0 异或0为自己
+        //同或：同或自己为全1   同或全1为自己
+        array<int,32>a{};
+        for(int num:nums)
+        {
+            for(int i=0;i<32;++i)
+            {
+                a[i]+=num&1;
+                num>>=1;
+            }
+        }
+        int res=0;
+        for(int i=0;i<32;++i)
+        {
+            a[i]%=3;
+            res+=(a[i]<<i);
+        }
+        
+        return res;
+    }
+};
