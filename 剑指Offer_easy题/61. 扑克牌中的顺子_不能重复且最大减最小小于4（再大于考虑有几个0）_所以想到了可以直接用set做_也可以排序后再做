@@ -1,0 +1,33 @@
+class Solution {
+public:
+    bool isStraight(vector<int>& nums) {
+        //先排序 再计算0的个数 然后比较最大值和最小值
+        sort(nums.begin(),nums.end());
+        int maxnum=0;
+        int minnum=nums[4];//记录牌里的最小数
+        int znum=0;
+        unordered_set<int>s;
+        for(int i=0;i<5;++i)
+        {
+            if(nums[i]==0)
+            {
+                ++znum;
+            }
+            else
+            {
+                minnum=minnum<nums[i]?minnum:nums[i];
+                maxnum=maxnum>nums[i]?maxnum:nums[i];
+                if(s.find(nums[i])==s.end())
+                {
+                    s.insert(nums[i]);
+                }
+                else
+                {
+                    return false;
+                }  
+            }
+        }
+        if(maxnum-minnum<5&&maxnum-minnum>3-znum)   return true;
+        else return false;
+    }
+};
