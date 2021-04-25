@@ -1,0 +1,60 @@
+class MaxQueue {
+private:
+    //定义一个队列
+    queue<int>q;
+    //定义一个辅助双向队列
+    deque<int>fzq;
+
+public:         //本题核心在于：记录当前队列最大值和上一个最大值（这个辅助队列里最后一个元素要么是最后放进来的元素，要么是表示当前最大值（为1个））  这样不断访问辅助队列头就行 一旦为空就结束
+    MaxQueue() {
+
+    }
+    
+    int max_value() {
+        //如果辅助队列队列为空 返回-1
+        if(fzq.empty()) return -1;
+        //最大值一直是辅助队列的头
+        return fzq.front();
+    }
+    
+    void push_back(int value) {
+        //放的时候 都是从后放
+        q.push(value);
+
+        //如果 辅助队列为空 直接放进去
+        if(fzq.empty())
+        {
+            fzq.push_back(value);
+        }
+        else
+        {
+            //如果不为空 就要判断当前值与辅助栈的最后一元素大小 比它大 就不断pop直到比里面的小或者里面为空 否则就直接跟在后面
+            while(!fzq.empty()&&value>fzq.back())
+            {
+                fzq.pop_back();
+            }
+            fzq.push_back(value);   
+        }
+    }
+    
+    int pop_front() {
+        //如果队列为空 则两个队列都为空 返回-1
+        if(q.empty())   return -1;
+        //出的时候都是从头出 但是要与辅助队列的头判断是否相等 相等辅助队列就要pop
+        if(q.front()==fzq.front())
+        {
+            fzq.pop_front();
+        }
+        int a=q.front();
+        q.pop();
+        return a;
+    }
+};
+
+/**
+ * Your MaxQueue object will be instantiated and called as such:
+ * MaxQueue* obj = new MaxQueue();
+ * int param_1 = obj->max_value();
+ * obj->push_back(value);
+ * int param_3 = obj->pop_front();
+ */
