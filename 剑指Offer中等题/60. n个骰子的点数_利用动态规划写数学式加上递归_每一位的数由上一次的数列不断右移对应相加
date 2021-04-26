@@ -1,0 +1,26 @@
+class Solution {
+public:
+    vector<double> dicesProbability(int n) {
+        //利用递归和动态规划做 
+        //每一位的数字由之前的数字乘1/6 然后不断右移贡献
+        if(n==1)
+        {
+            vector<double>cjh(6,1.0/6.0);
+            return cjh;
+        }
+        vector<double>b=dicesProbability(n-1); //递归得到n=1时的基础序列
+        vector<double>a(5*n+1);  //根据当前n的大小能知道要创建的vector的大小
+        for(int i=0;i<b.size();++i)
+        {
+            //不断的用上一个序列左移 加到当前的序列上
+            a[i]+=(1.0/6.0)*b[i];
+            a[i+1]+=(1.0/6.0)*b[i];
+            a[i+2]+=(1.0/6.0)*b[i];
+            a[i+3]+=(1.0/6.0)*b[i];
+            a[i+4]+=(1.0/6.0)*b[i];
+            a[i+5]+=(1.0/6.0)*b[i];
+        }
+        return a;
+
+    }
+};
