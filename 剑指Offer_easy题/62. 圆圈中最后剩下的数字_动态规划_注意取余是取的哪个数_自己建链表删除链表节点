@@ -1,0 +1,57 @@
+/*
+class mylist
+    {
+        public:
+        int val;
+        mylist* next;
+       // mylist(int x):val(x),next(NULL) {}
+    };
+    
+class Solution {
+public:
+    int lastRemaining(int n, int m) {
+        //用链表来模拟
+        //创建一个新的节点
+        mylist* p=NULL;
+        p=new mylist;
+        p->val=0;
+        //记录头指针
+        mylist* head=p;
+        //先创建链表 并给每个点赋值
+        for(int i=1;i<n;++i)
+        {
+            mylist* node=new mylist;
+            node->val=i;
+            p->next=node;
+            p=p->next;
+        }
+        //连成环
+        p->next=head;
+        //开始模拟
+        while(n>1)
+        {
+
+            for(int j=0;j<m-1;++j)
+            {
+                p=p->next;
+            }
+            p->next=p->next->next;      //在这里删除节点
+            n--;
+        }
+        return p->val;
+    }
+};
+*/
+//以上是对的  但是超时了
+
+class Solution {
+public:
+    int lastRemaining(int n, int m) {
+       //递推式：f(n)=(f(n-1)+m)%n
+
+//这种题 利用递推的时候 主要是要清楚取余之后取到的是哪一个数 然后才能进一步确定
+
+       if(n==1) return 0;
+        return (lastRemaining(n-1,m)+m)%n;
+    }
+};
