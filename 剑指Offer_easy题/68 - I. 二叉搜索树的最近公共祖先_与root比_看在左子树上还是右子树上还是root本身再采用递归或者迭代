@@ -1,0 +1,30 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        //分析给定的两个节点的性质： 1、为兄弟 2、为父子 3、为父 和（n）孙 4、为兄弟的子 和兄弟的子（本身）
+       //输入为根节点 和两个已知节点 返回一个节点 
+        //当这两个已知节点一个大于一个小于根节点 就返回根节点 否则就更新根节（注意左右） 这样不断递归即可
+        if((p->val <= root->val && q->val >= root->val) || (q->val <=root->val && p->val >= root->val))
+        {
+            return root;
+        }
+        else if(p->val < root->val && q->val < root->val )
+        {
+            return lowestCommonAncestor(root->left,p,q);
+        }
+        else
+        {
+            return lowestCommonAncestor(root->right,p,q);
+        }
+    }
+};
+//还可以用迭代而不递归 思路：一旦发现在左子树上，就把root更新为左子树 然后再继续比 核心和上面的递归是一样的
