@@ -1,0 +1,41 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool myfind(TreeNode* root,TreeNode* p,TreeNode* q)
+    {
+        if(root==NULL)  return false;
+        //这颗树上只要有一个点就返回true
+        if(root->val==p->val||root->val==q->val)    return true;
+        else 
+        {
+            return myfind(root->left,p,q)||myfind(root->right,p,q);
+        }
+    }
+
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        //与之前不同点在于 这不是二叉搜索树了 而是一颗普通的树
+        //考虑构造这样的一个函数：输入根节点 若pq值和根节点值相同返回根节点 否则就找左右子树是否都有p或q 是的话返回根节点 否则就分左右迭代
+        if(root->val==p->val||root->val==q->val)    return root;
+        
+        if(myfind(root->left,p,q)&&myfind(root->right,p,q))
+        {
+            return root;
+        }
+        else if(myfind(root->left,p,q))
+        {
+            return lowestCommonAncestor(root->left,p,q);
+        }
+        else
+        {
+            return lowestCommonAncestor(root->right,p,q);
+        }
+    }
+};
