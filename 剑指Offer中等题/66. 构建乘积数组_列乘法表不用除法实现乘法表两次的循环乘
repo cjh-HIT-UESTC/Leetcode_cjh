@@ -1,0 +1,28 @@
+class Solution {
+public:
+    vector<int> constructArr(vector<int>& a) {
+        //列表，可以发现乘法的规律
+        int len=a.size();
+        vector<int>b(len);
+        int num=1;
+        for(int i=0;i<len;++i)
+        {
+            b[i]=num;
+            num*=a[i];
+        }
+        int num1=1;
+        for(int i=len-1;i>=0;--i)
+        {
+            b[i]*=num1;
+            num1*=a[i];
+        }
+        return b;
+
+    }
+};
+输出 	0 	1 	2 	3
+B[0] 	- 	A[1] 	A[2] 	A[3]
+B[1] 	A[0] 	- 	A[2] 	A[3]
+B[2] 	A[0] 	A[1] 	- 	A[3]
+B[3] 	A[0] 	A[1] 	A[2] 	-
+
