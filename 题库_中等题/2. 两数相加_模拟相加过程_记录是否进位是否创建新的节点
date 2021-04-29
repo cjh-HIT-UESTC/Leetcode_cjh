@@ -1,0 +1,116 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        //模拟加法的进位
+        //链表从个位开始往后走 两数相加超过10就进1
+        //两个链表长度不相等 所以一旦短的完了 就先判断是否进位 然后把长的拼接就行 所以肯定需要一个进位标识符
+        //停止条件就是一旦一个链表为空 
+        int in=0; //进位标识符
+        ListNode* head=l1;
+        ListNode* cur;
+        while(l1&&l2)
+        {
+            int sum=l1->val + l2->val+in;
+            
+            if(sum >9)
+            {
+                l1->val=sum%10;
+                in=1;
+            }
+            else
+            {
+                l1->val=sum;
+                in=0;
+            }
+            cur=l1;
+            l1=l1->next;
+            l2=l2->next;
+        }
+        if(l1)
+        {
+            while(l1->next)
+            {
+                int sum=l1->val +in;
+                if(sum>9)
+                {
+                    l1->val=sum%10;
+                    in=1;
+                    l1=l1->next;
+                }
+                else
+                {
+                    l1->val=sum;
+                    return head;
+                }
+            }
+            int sum=l1->val +in;
+            if(sum>9)
+            {
+                l1->val=sum%10;
+                ListNode* node=new ListNode(1);
+                l1->next=node;
+                return head;
+            }
+            else
+            {
+                l1->val=sum;
+                return head;
+            }
+        }
+        else if(l2)
+        {
+            cur->next=l2;
+            while(l2->next)
+            {
+                int sum=l2->val +in;
+                if(sum>9)
+                {
+                    l2->val=sum%10;
+                    in=1;
+                    l2=l2->next;
+                }
+                else
+                {
+                    l2->val=sum;
+                    return head;
+                }
+            }
+            int sum=l2->val +in;
+            if(sum>9)
+            {
+                l2->val=sum%10;
+                ListNode* node=new ListNode(1);
+                l2->next=node;
+                return head;
+            }
+            else
+            {
+                l2->val=sum;
+                return head;
+            }
+        }
+        else
+        {
+            if(in ==1)
+            {
+                ListNode* node=new ListNode(1);
+                cur->next=node;
+                return head;
+            }
+            else
+            {
+                return head;
+            }
+        }
+    }
+};
