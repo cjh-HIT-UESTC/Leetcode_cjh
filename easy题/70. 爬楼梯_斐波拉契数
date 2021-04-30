@@ -1,0 +1,27 @@
+/*
+class Solution {
+public:
+    int climbStairs(int n) {
+        //斐波拉契数 可以动态规划 第n次的f(n）由f(n-1)和f(n-2)贡献
+        if(n<4) return n;
+        return climbStairs(n-1)+climbStairs(n-2);  //超出了时间限制
+    }
+};
+*/
+class Solution {
+public:
+    int climbStairs(int n) {
+        //可以动态规划 用数组去存放之前的数 避免上述的两次重复计算
+        //因为只存放两个数 且有先进先出的性质 所以利用队列
+        if(n<4) return n;
+        queue<int>q;
+        q.push(1);
+        q.push(2);
+        while(n>2){
+            q.push(q.front()+q.back());
+            q.pop();
+            --n;
+        }
+        return q.back();
+    }
+};
