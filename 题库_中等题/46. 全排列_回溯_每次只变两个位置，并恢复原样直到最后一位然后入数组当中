@@ -1,0 +1,25 @@
+class Solution {
+private:
+    vector<vector<int>>res;
+public:
+//定义一个函数 输出二维数组，输入一维数组，起始位置，末尾
+    void myfunc(vector<int>&nums,int first,int len)
+    {
+        //当first等于len时表示已经到最后一位了
+        if(first==len)
+        {
+            res.emplace_back(nums);
+        }
+        for(int i=first;i<len;++i)
+        {
+            swap(nums[first],nums[i]);
+            myfunc(nums,first+1,len);
+            swap(nums[first],nums[i]);
+        }
+    }
+
+    vector<vector<int>> permute(vector<int>& nums) {
+        myfunc(nums,0,nums.size());
+        return res;
+    }
+};
