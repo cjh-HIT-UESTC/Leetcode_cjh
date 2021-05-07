@@ -1,0 +1,41 @@
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        int len=nums.size();
+        if(len<3)   return {};//特例
+        sort(nums.begin(),nums.end());//排序
+        vector<vector<int>>ans;
+
+        for(int left=0;left<len&&nums[left]<=0;++left)//左指针
+        {
+            if(left>0&&nums[left]==nums[left-1])//移动左指针，一旦当前左指针的值与上一个值相同，则继续下一次移动（防止重复）
+            {
+                continue;
+            }
+            int right=len -1;//右指针，每次都从最右端开始
+            int target=-nums[left];//目标值
+            for(int mid=left+1;mid<right;++mid)//中间指针，每次从左指针右边开始移动，一旦超过右指针则停止
+            {   //中间指针的设置是精髓
+                if(mid>left+1 && nums[mid]==nums[mid-1])//移动中间指针，一旦值与上次的相同，则继续下一次移动，并且需要判断它是比左指针多两个位置以上
+                {
+                    continue;
+                }
+                while(right>mid &&nums[mid]+nums[right]>target)//一旦比目标值大，就左移右指针（减少数，直到更小或者相等），还有一个判断右指针必须在中间指针右端
+                {
+                    --right;
+                }
+                if(mid==right)//一旦指针相撞则跳出当前循环
+                {
+                    break;
+                }
+                if(nums[mid]+nums[right]==target)
+                {
+                    ans.push_back({nums[left],nums[mid],nums[right]});//找到符合条件的值
+                }
+            }
+        }
+        return ans;
+
+       
+    }
+};
