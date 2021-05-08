@@ -1,0 +1,50 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    void reorderList(ListNode* head) {
+        if(head->next==nullptr||head==nullptr) 
+        {
+
+        }
+        else
+        {
+            //节点入双向队列
+            ListNode* p=head;
+            deque<ListNode*>dq;
+            while(p)
+            {
+                dq.push_back(p);
+                p=p->next;
+            }
+
+            //链接节点 停止条件为队列不为空
+            while(!dq.empty())
+            {
+                dq.front()->next=dq.back();
+                dq.pop_front();
+                if(dq.front()==dq.back())
+                {
+                    dq.back()->next=nullptr;
+                    break;
+                }
+                dq.back()->next=dq.front();
+                dq.pop_back();
+                if(dq.size()==1)
+                {
+                    dq.front()->next=nullptr;
+                    break;
+                }
+            }
+        }
+
+    }
+};
