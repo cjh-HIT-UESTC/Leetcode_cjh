@@ -1,0 +1,27 @@
+class Solution {
+public:
+    void nextPermutation(vector<int>& nums) {
+        int len=nums.size()-1;
+        int i=len;
+        //找到当前数比之前一个位置数大的位置索引
+        for(;i>0;--i) {
+            if(nums[i]>nums[i-1]) {
+                break;
+            }
+        }
+        //如果没找到的情况   注意要else
+        if(i==0) {
+            reverse(nums.begin(),nums.end());
+        }
+        else {
+            //再从后开始遍历，找比之前数稍微大一点的数的位置（因为是降序排列，所以直接--找即可）
+            for(int j=len;j>=i;--j) {
+                if(nums[j]>nums[i-1]) {
+                swap(nums[j],nums[i-1]); //交换位置
+                reverse(nums.begin()+i,nums.end());//把换位置之后 后面的部分声序排列（保证最小）
+                break;
+                }
+            }
+        }     
+    }
+};
