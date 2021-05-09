@@ -1,0 +1,74 @@
+class Solution {
+public:
+    string addStrings(string num1, string num2) {
+        int i=num1.size()-1;
+        int j=num2.size()-1;
+        string res="";
+        int ii=0;
+        while(i>=0&&j>=0){
+            int sum=num1[i]-'0'+num2[j]-'0'+ii;
+            if(sum<=9){
+                res=(char)(sum+'0')+res;
+                ii=0;
+            }
+            else{
+                res=(char)(sum%10+'0')+res;
+                ii=1;
+            }
+            --i;
+            --j;
+        }
+
+        if(i<0&&j<0){
+            if(ii==1){
+                res=(char)(ii+'0')+res;
+                return res;
+            }
+            else{
+                return res;
+            }
+        }
+        else if(i>=0){
+            while(i>=0){
+                int sum=num1[i]-'0'+ii;
+                if(sum<=9){
+                    res=(char)(sum+'0')+res;
+                    ii=0;
+                }
+                else{
+                    res=(char)(sum%10+'0')+res;
+                    ii=1;
+                }
+                --i;
+            }
+            if(ii==1){
+                res=(char)(ii+'0')+res;
+                return res;
+            }
+            else{
+                return res;
+            }
+        }
+        else{
+            while(j>=0){
+                int sum=num2[j]-'0'+ii;
+                if(sum<=9){
+                    res=(char)(sum+'0')+res;
+                    ii=0;
+                }
+                else{
+                    res=(char)(sum%10+'0')+res;
+                    ii=1;
+                }
+                --j;
+            }
+            if(ii==1){
+                res=(char)(ii+'0')+res;
+                return res;
+            }
+            else{
+                return res;
+            }
+        }
+    }
+};
