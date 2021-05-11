@@ -1,0 +1,40 @@
+class Solution {
+private:
+    unordered_map<int, int> index;
+
+public:
+    TreeNode* myfunc(const vector<int>& preorder, const vector<int>& inorder, int preorder_left, int preorder_right, int inorder_left, int inorder_right) {
+        if(preorder_left>preorder_right){
+            return nullptr;
+        }    
+        
+        //找到根节点的位置
+        int rootindex=preorder_left;
+        //构造根节点
+        TreeNode* root=new TreeNode(preorder[rootindex]);
+
+        //在哈希表查找中序遍历的根节点位置
+        int rootinorderindex=index[preorder[rootindex]];
+
+        //左子树长度
+        int lenleft=rootinorderindex-inorder_left;
+
+        //右子树长度
+        int lenright=inorder_right-rootinorderindex;
+
+        root->left=myfunc(preorder,inorder,preorder_left+1,preorder_left+lenleft,inorder_left,inorder_left+lenleft);
+
+        root->right=myfunc(preorder,inorder,preorder_left+lenleft+1,preorder_right,inorder_left+lenleft+1,inorder_right);
+
+        return root;
+    }
+
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        int n = preorder.size();
+        // 构造哈希映射，帮助我们快速定位根节点
+        for (int i = 0; i < n; ++i) {
+            index[inorder[i]] = i;
+        }
+        return myfunc(preorder, inorder, 0, n - 1, 0, n - 1);
+    }
+};
