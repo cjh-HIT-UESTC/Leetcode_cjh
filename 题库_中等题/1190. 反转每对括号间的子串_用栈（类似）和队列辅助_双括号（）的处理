@@ -1,0 +1,32 @@
+class Solution {
+public:
+    string reverseParentheses(string s) {
+        //用一个栈和一个队列辅助，只要没碰到}就不断往栈里放数据，一旦碰到}就开始出栈（直到碰到{），出栈的数据放到队列里，一旦碰到{，就把队列里的元素全部按顺序放回栈里，最后输出栈里的元素（从左边输出）
+        //所以可以把栈换成一个双口队列
+        deque<char>d;
+        queue<char>q;
+
+        for(char c:s){
+            if(c!=')'){
+                d.push_back(c);
+            }
+            else{
+                while(d.back()!='('){
+                    q.push(d.back());
+                    d.pop_back();
+                }
+                d.pop_back();//出'('
+                while(!q.empty()){
+                    d.push_back(q.front());
+                    q.pop();
+                }
+            }
+        }
+        string ss="";
+        while(!d.empty()){
+            ss+=d.front();
+            d.pop_front();
+        }
+        return ss;
+    }
+};
