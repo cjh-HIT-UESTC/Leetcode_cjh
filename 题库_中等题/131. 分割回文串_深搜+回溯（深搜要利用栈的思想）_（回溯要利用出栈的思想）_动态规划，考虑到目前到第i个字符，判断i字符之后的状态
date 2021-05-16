@@ -1,0 +1,41 @@
+class Solution {
+private:
+    vector<vector<string>>res;
+    vector<string>ans;
+    int len;
+
+public:
+    bool ishw(string s,int i,int j){
+        if(i>j) return false;
+        while(i<=j){
+            if(s[i]!=s[j]){
+                return false;
+            }
+            ++i;
+            --j;
+        }
+        return true;
+    }
+
+    void myfunc(string s,int i){
+        if(i==len){
+            res.emplace_back(ans);
+            return;//结束
+        }
+        for(int j=i;j<len;++j){
+            if(ishw(s,i,j)){
+                ans.emplace_back(s.substr(i,j-i+1));
+                myfunc(s,j+1);
+                ans.pop_back();
+            }
+        }
+    }
+
+    vector<vector<string>> partition(string s) {
+        //一个函数输出vector，输入字符串的起始结尾位置，直到起始位置等于结尾才放到vector里
+        //一个函数用于判断是否为回文
+        len=s.size();
+        myfunc(s,0);
+        return res;
+    }
+};
