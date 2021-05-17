@@ -1,0 +1,29 @@
+class Solution {
+private:
+    vector<string>ans;
+    string s;
+public:
+    void myfunc(vector<string>& ans,string& s ,int open ,int end,int n){
+    //输入存放结果的vector，当前的字符串,左右括号个数，目标括号对数
+        if(end==n){
+            ans.emplace_back(s);
+            return;
+        }
+
+        if(open<n){
+            s.push_back('(');
+            myfunc(ans,s,open+1,end,n);
+            s.pop_back();
+        }
+        if(open>end){
+            s.push_back(')');
+            myfunc(ans,s,open,end+1,n);
+            s.pop_back();
+        }
+    }
+
+    vector<string> generateParenthesis(int n) {
+        myfunc(ans,s,0,0,n);
+        return ans;
+    }
+};
