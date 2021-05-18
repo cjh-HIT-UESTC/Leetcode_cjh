@@ -1,0 +1,40 @@
+class Solution {
+private:
+    unordered_map<int,int>map;
+    stack<int>stk;
+
+//对于本程序 可以把map去掉  在stk中存放每个元素的索引即可  和答案的单调栈是一样的 只是说我是反着来的
+public:
+    vector<int> dailyTemperatures(vector<int>& temperatures) {
+        int len=temperatures.size()-1;
+        for(int i=len;i>=0;--i){
+            //如果栈为空
+            if(stk.empty()){
+                stk.emplace(temperatures[i]);
+                map[temperatures[i]]=i;
+                temperatures[i]=0;
+            }
+            else{
+                while(!stk.empty()){
+                    if(temperatures[i]<stk.top()){
+                        int cjh=map[stk.top()]-i;
+                        stk.emplace(temperatures[i]);
+                        map[temperatures[i]]=i;
+                        temperatures[i]=cjh;
+                        break;
+                    }
+                    else{
+                        stk.pop();
+                        if(stk.empty()){
+                            stk.emplace(temperatures[i]);
+                            map[temperatures[i]]=i;
+                            temperatures[i]=0;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return temperatures;
+    }
+};
