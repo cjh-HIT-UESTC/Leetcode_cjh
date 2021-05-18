@@ -1,0 +1,25 @@
+class Solution {
+public:
+    string convert(string s, int numRows) {
+        if(numRows==1){
+            return s;
+        }
+        //模拟行号的变化
+        vector<string>ans(numRows);
+        int n=numRows-1;
+        
+        bool godown=false;
+        int cur=0;
+        for(char c:s){
+            ans[cur]+=c;
+            if(cur==0||cur==n) godown=!godown;
+            cur+=godown?1:-1;
+        }
+
+        string res="";
+        for(string ss:ans){
+            res+=ss;
+        }
+        return res;
+    }
+};
