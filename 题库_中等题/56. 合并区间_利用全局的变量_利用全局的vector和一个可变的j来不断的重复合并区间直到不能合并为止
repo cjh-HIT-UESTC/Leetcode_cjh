@@ -1,0 +1,32 @@
+class Solution {
+private:
+    int row;
+    vector<vector<int>>ans;
+public:
+    void myfunc(vector<int>& nums,vector<vector<int>>& intervals,int& j){
+        if(j>=row)  return;
+        if(nums[1]<intervals[j][0]){
+            return;
+        }
+        else{
+            nums[1]=max(nums[1],intervals[j][1]);
+            ++j;
+            myfunc(nums,intervals,j);
+        }
+    }
+
+    vector<vector<int>> merge(vector<vector<int>>& intervals) {
+        //先排序
+        sort(intervals.begin(),intervals.end());
+        row=intervals.size();
+        int i=0,j=0;
+
+        while(i<row&&j<row){
+            vector<int>nums{intervals[i][0],intervals[i][1]};
+            myfunc(nums,intervals,j);
+            ans.emplace_back(nums);
+            i=j;
+        }
+        return ans;
+    }
+};
