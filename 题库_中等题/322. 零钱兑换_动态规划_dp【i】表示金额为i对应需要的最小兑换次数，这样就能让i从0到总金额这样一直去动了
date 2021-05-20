@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int coinChange(vector<int>& coins, int amount) {
+        int len=coins.size();
+        int MAX=amount+1;
+        vector<int>dp(MAX,MAX);
+        dp[0]=0;
+        for(int i=1;i<=amount;++i){
+            for(int j=0;j<len;++j){
+                if(i>=coins[j]){
+                    dp[i]=min(dp[i],dp[i-coins[j]]+1);//这里的+1要在里面。而不能在外。在里面这样不变就是不变，变了才+1
+                }
+            }
+        }
+        return dp[amount]==MAX?-1:dp[amount];
+    }
+};
