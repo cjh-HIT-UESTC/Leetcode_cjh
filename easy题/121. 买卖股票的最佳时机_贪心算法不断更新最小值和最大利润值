@@ -1,0 +1,16 @@
+class Solution {
+private:
+    int minnum;
+    int maxp=0;
+
+public:
+    int maxProfit(vector<int>& prices) {
+        //用一个数维护当前为止的最小值 再用一个数维护目前为止的最大利润 然后从前往后遍历
+        minnum=prices[0];
+        for(int num:prices){
+            maxp=(num-minnum)>maxp?(num-minnum):maxp;
+            minnum=num<minnum?num:minnum;    
+        }
+        return maxp;
+    }
+};
