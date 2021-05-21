@@ -1,0 +1,48 @@
+class Solution {
+private:
+    stack<char>stk;
+    string ans="";
+
+public:
+    string decodeString(string s) {
+        //没遇到】就不断的入栈
+        int len=s.size();
+        for(char c:s){
+            if(c!=']'){
+                stk.emplace(c);
+            }
+            else{
+                string ss="";
+                while(stk.top()!='['){
+                    ss=stk.top()+ss;
+                    stk.pop();
+                }
+                //现在top是【
+                stk.pop();
+                //第一个【弹出,现在找数字
+                int num=0;
+                int bs=1;
+                while(!stk.empty()&&stk.top()-'0'>=0&&stk.top()-'0'<=9){
+                    int cjh=stk.top()-'0';
+                    num+=(cjh*bs);
+                    bs*=10;
+                    stk.pop();
+                }
+                //找到数字了 但数字为0时，当1处理
+                if(num==0)  num=1;
+                //开始按数字翻译字符串
+                while(num!=0){
+                    for(int i=0;i<ss.size();++i){
+                        stk.emplace(ss[i]);//这里是放入栈中
+                    }
+                    --num;
+                }
+            }
+        }
+         while(!stk.empty()){
+            ans=stk.top()+ans;
+            stk.pop();
+        }
+        return ans;
+    }
+};
