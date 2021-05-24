@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        //我这方法的时间复杂度为ON2
+        int maxnum=1;
+        int len=nums.size();
+        vector<int>dp(len);
+        dp[0]=1;
+
+        for(int i=1;i<len;++i){
+            int premax=0;
+            for(int j=i-1;j>=0;--j){
+                if(nums[j]<nums[i]){
+                    premax=premax>dp[j]?premax:dp[j];
+                }
+            }
+            dp[i]=premax+1;
+            maxnum=maxnum>dp[i]?maxnum:dp[i];
+        }
+        return maxnum;
+    }
+};
+
+//ONlogN 的核心在于：维护一个列表 tailstailstails，其中每个元素 tails[k]tails[k]tails[k] 的值代表 长度为 k+1k+1k+1 的子序列尾部元素的值。
+//用二分查找优化遍历数组的过程
