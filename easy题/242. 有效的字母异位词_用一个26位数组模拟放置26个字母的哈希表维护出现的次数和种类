@@ -1,0 +1,24 @@
+class Solution {
+public:
+    bool isAnagram(string s, string t) {
+        //出现的种类和频次一样即可
+        //用以个26位的数组充当一个类哈希表
+        int len1=s.size();
+        int len2=t.size();
+        if(len1!=len2)  return false;
+
+        vector<int>table(26,0);
+        for(char& c:s){
+            ++table[c-'a'];
+        }
+        for(char& c:t){
+            --table[c-'a'];
+            if(table[c-'a']<0){
+                return false;
+            }
+        }
+        return true;
+
+    }
+};
+
