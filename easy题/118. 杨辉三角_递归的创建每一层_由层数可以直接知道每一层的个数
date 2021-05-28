@@ -1,0 +1,33 @@
+class Solution {
+public:
+    vector<int>myfunc(vector<int>arry,int n){
+        //n为当前层数
+        vector<int> res(n,1);
+        for(int i=1;i<n-1;++i){
+            res[i]=arry[i-1]+arry[i];
+        }
+        return res;
+    }
+
+    vector<vector<int>> generate(int numRows) {
+        //斐波拉契数
+        vector<vector<int>>ans;
+        vector<int>a(1,1);
+        ans.emplace_back(a);
+        if(numRows==1){
+            return ans;
+        }
+        vector<int>b(2,1);
+        ans.emplace_back(b);
+        if(numRows==2){
+            return ans;
+        }
+
+        for(int i=3;i<1+numRows;++i){
+            b=myfunc(b,i);
+            ans.emplace_back(b);
+        }
+        return ans;
+
+    }
+};
