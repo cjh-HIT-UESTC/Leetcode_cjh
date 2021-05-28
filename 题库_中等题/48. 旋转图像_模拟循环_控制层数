@@ -1,0 +1,22 @@
+class Solution {
+public:
+    void rotate(vector<vector<int>>& matrix) {
+        int n=matrix.size();
+        /*
+        从每一层的头开始，每一次到列的最后往前走1（因为列的最后已经换过了）
+        然后更新每一行，这时列号跟着行号变，（这样就进入了下一圈）
+        对于奇数层数，最里面的不会被换，对于偶数层数 由于n/2 则会多出一次循环
+        */
+        int q=n/2;
+        for(int i=0;i<q;++i){
+            for(int j=i;j<n-1-i;++j){
+                int temp=matrix[i][j];
+                matrix[i][j]=matrix[n-1-j][i];
+                matrix[n-1-j][i]=matrix[n-1-i][n-1-j];
+                matrix[n-1-i][n-1-j]=matrix[j][n-1-i];
+                matrix[j][n-1-i]=temp;
+            }
+        }
+
+    }
+};
