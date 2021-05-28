@@ -1,0 +1,35 @@
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        // 自定义对 array<int, 26> 类型的哈希函数
+        auto arrayHash = [fn = hash<int>{}] (const array<int, 26>& arr) -> size_t {
+            //总的表达式名叫arryHash
+            //函数对象名字叫做了fn,这里相当于定义了一个函数： hash<int>{}，名叫hash,执行体为空，再把整个函数赋值给了变量fn
+            //括号里是操作符重载函数参数，重载了一个括号操作，参数为不可变的array
+            //->用于在有返回值时,返回类型为size_t(简单理解为 unsigned int就可以了，64位系统中为 long unsigned int)
+            //最后表达式的执行体里执行return
+            //在这里，lamba表达式里又包含了一个lamb，对于自定义数据类型，我们就需要自己动手写一个回调函数来实现自定义数据的处理，然后让它作为accumulate()的第四个参数
+            return accumulate(arr.begin(), arr.end(), 0u, [&](size_t acc, int num) {
+                //0u是无符号数0.lamb表达式是以引用传递的方式，重载运算符，递归的调用然后或运算
+                return (acc << 1) ^ fn(num);
+            });
+        };
+
+        unordered_map<array<int, 26>, vector<string>, decltype(arrayHash)> mp(0, arrayHash);
+        //decltype用于生成变量名或者表达式的类型(相当于auto的作用，但这里不能auto)
+        for (string& str: strs) {
+            array<int, 26> counts{};
+            //建立一个26位的数组，然后计算每个字符的总量
+            int length = str.length();
+            for (int i = 0; i < length; ++i) {
+                counts[str[i] - 'a'] ++;
+            }
+            mp[counts].emplace_back(str);
+        }
+        vector<vector<string>> ans;
+        for (auto it = mp.begin(); it != mp.end(); ++it) {
+            ans.emplace_back(it->second);
+        }
+        return ans;
+    }
+};
