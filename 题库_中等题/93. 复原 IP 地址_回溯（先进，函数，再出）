@@ -1,0 +1,60 @@
+/**
+    用栈来模拟回溯 
+**/
+class Solution {
+private:
+        vector<string>ans;
+        vector<string>temp;
+
+        void myfunc(string& s,int ID,int startnum){
+            if(ID==4){
+                if(startnum==s.size()){
+                    string ret="";
+                    for(int i=0;i<3;++i){                        
+                        ret+=temp[i];
+                        ret+=".";
+                    }
+                    ret+=temp[3];
+                    ans.emplace_back(move(ret));
+                }
+                return;
+            }
+
+            if(startnum>=s.size()){
+                return;
+            }
+
+            if(s[startnum]=='0'){
+                string cjh="";
+                cjh+=s[startnum];
+                temp.push_back(cjh);
+                myfunc(s,ID+1,startnum+1);
+                temp.pop_back();
+            }
+            else{
+                int num=0;
+                for(int i=startnum;i<s.size() && i<startnum+3;++i){
+                    num=num*10+(s[i]-'0');
+                    if(num>0&&num<256){
+                        temp.emplace_back(to_string(num));
+                        myfunc(s,ID+1,i+1);
+                        temp.pop_back();
+                    }
+                }
+            }
+
+            
+        }
+
+
+public:
+    vector<string> restoreIpAddresses(string s) {
+
+        myfunc(s,0,0);
+        return ans;
+
+
+
+
+    }
+};
