@@ -1,0 +1,48 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        //利用队列实现
+        queue<TreeNode* >q;
+        vector<vector<int>>ans;
+
+        //先判断是否空指针
+        if(root==nullptr)   return ans;
+
+        //先把头节点放进去
+        q.push(root);
+        
+        while(!q.empty()){
+            //先把q里面的元素个数记录下来
+            int num=q.size();
+            //根据个数依次把子节点进，再把节点出
+            vector<int>ret;
+            while(num>0){
+                //先把头节点的子节点进
+                if(q.front()->left!=nullptr){
+                    q.emplace(q.front()->left);
+                }
+                if(q.front()->right!=nullptr){
+                    q.emplace(q.front()->right);
+                }
+                //把头节点放入vector
+                ret.emplace_back(q.front()->val);
+                //pop
+                q.pop();
+                --num;
+            }
+            ans.emplace_back(ret);
+        }
+        return ans;
+    }
+};
